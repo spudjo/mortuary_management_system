@@ -31,9 +31,12 @@ void addMenu();
 // editMenu()
 // deleteMenu()
 // searchMenu()
+// displayMenu()
 //
 // quit()
 void quit();
+//for splitting up text for legibility
+void stars(int i);
 
 // file functions
 void addRecord(char * name, int age, int weight, int height);
@@ -47,8 +50,7 @@ void addRecord(char * name, int age, int weight, int height);
 // readCSV()
 //
 // writeCSV()
-//
-// quickSort()
+
 //
 // DFTSearch()
 
@@ -60,10 +62,11 @@ void main(int argc,int argv){
 }
 
 void mainMenu(){
-	
 	char select;
 	
+	stars(2);
 	printf("Welcome to St.Anthony's Mortuary\n");
+	stars(1);
 	printf("Options:\n");
 	printf("Add record: a  Edit record: e  Delete record: d  Search records: s  Quit: q\n");
 	scanf("%c", &select);
@@ -92,6 +95,7 @@ void addMenu(){
 	printf("Add a Record\n");
 	printf("Enter Name:\n");
 	scanf("%s",&name);
+	fflush(stdin);
 	printf("Enter Age:\n");
 	scanf("%d", &age);
 	printf("Enter Weight at death:\n");
@@ -128,21 +132,26 @@ void addRecord(char name[], int age, int weight, int height){
 	fflush(stdin);
 	
 	//add the data into stack
-	
+	stars(1);
 	printf("Add Successful!\n");
-	printf("Add another: y/n \n");
+	stars(2);
+	printf("Add Another? y/n \n");
 	scanf("%c", &confirm);
 	switch(confirm){
 		case 'y':
+			fflush(stdin);
 			addMenu();
 			break;
 		case 'Y':
+			fflush(stdin);
 			addMenu();
 			break;
 		case 'n':
+			fflush(stdin);
 			mainMenu();
 			break;
 		case 'N':
+			fflush(stdin);
 			mainMenu();
 			break;
 	}
@@ -151,4 +160,16 @@ void addRecord(char name[], int age, int weight, int height){
 void quit(){
 	printf("\n\nExiting application, have a beautiful day.");
 	exit(0);
+}
+
+void stars(int i){
+	//how many stars do you need?
+	switch(i){
+	case 3:
+	printf("********** **********\n");
+	case 2:
+	printf("********** **********\n");
+	case 1:
+	printf("********** **********\n");
+	}
 }
