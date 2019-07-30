@@ -7,58 +7,50 @@
 // Mortuary Management System //
 // Shawn, Steve Carino, Casey Byrne
 
-//DATA STRUCTS
-//bodies
+// DATA STRUCTS
+// bodies
 typedef struct Body{
 	int id;
 	char * name;
 	int age;
-	int height;
 	int weight;
+	int height;
 }Body, *BodyPtr;
 
+// stack
 typedef struct node{
 	BodyPtr data;
 	struct node *next
 }Node, *NodePtr;
 
-
-
+// FUNCTIONS
 //
-//stack
-//
-//FUNCTIONS
-//
-//menu functions
-//mainMenu()
+// menu functions
 void mainMenu();
-//addMenu()
+void addMenu();
+// editMenu()
+// deleteMenu()
+// searchMenu()
 //
-//editMenu()
-//
-//deleteMenu()
-//
-//searchMenu()
-//
-//quit()
+// quit()
 void quit();
 
-//file functions
-//addRecord()
+// file functions
+void addRecord(char * name, int age, int weight, int height);
 //
-//editRecord()
+// editRecord()
 //
-//deleteRecord()
+// deleteRecord()
 //
-//search()
+// search()
 
-//readCSV()
+// readCSV()
 //
-//writeCSV()
+// writeCSV()
 //
-//quickSort()
+// quickSort()
 //
-//DFTSearch()
+// DFTSearch()
 
 void main(int argc,int argv){
 	//load Records
@@ -78,7 +70,7 @@ void mainMenu(){
 	
 	switch(select){
 		case 'a':
-			//add
+			addMenu();
 		case 'e':
 			//edit
 		case 'd':
@@ -87,6 +79,72 @@ void mainMenu(){
 			//search
 		case 'q':
 			quit();		
+	}
+}
+
+void addMenu(){
+	char name[50];
+	int age = 0;
+	int weight = 0;
+	int height = 0;
+	char confirm;
+
+	printf("Add a Record\n");
+	printf("Enter Name:\n");
+	scanf("%s",&name);
+	printf("Enter Age:\n");
+	scanf("%d", &age);
+	printf("Enter Weight at death:\n");
+	scanf("%d", &weight);
+	printf("Enter Height at death:\n");
+	scanf("%d", &height);
+	printf("\n");
+	printf("File: %s Age: %d Weight: %d Height: %d\n", name, age, weight, height);
+	printf("Save File? y/n \n");
+	
+	fflush(stdin);
+	scanf("%c", &confirm);
+	
+	switch(confirm){
+		case 'y':
+			addRecord(name, age, weight, height);
+			break;
+		case 'Y':
+			addRecord(name, age, weight, height);
+			break;
+		case 'n':
+			addMenu();
+			break;
+		case 'N':
+			addMenu();
+			break;
+	}
+}
+
+void addRecord(char name[], int age, int weight, int height){
+	char confirm;
+	
+	printf("File: %s Age: %d Weight: %d Height: %d\n", name, age, weight, height);
+	fflush(stdin);
+	
+	//add the data into stack
+	
+	printf("Add Successful!\n");
+	printf("Add another: y/n \n");
+	scanf("%c", &confirm);
+	switch(confirm){
+		case 'y':
+			addMenu();
+			break;
+		case 'Y':
+			addMenu();
+			break;
+		case 'n':
+			mainMenu();
+			break;
+		case 'N':
+			mainMenu();
+			break;
 	}
 }
 
