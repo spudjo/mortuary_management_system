@@ -6,16 +6,26 @@
 
 // Mortuary Management System //
 // Shawn, Steve Carino, Casey Byrne
+// Roles:
+// Steven: Search, Menu Structure, View Details
+// Casey: File I/O, Delete
+// Shawn: Data Structure, Add, Update, Display All Records
 
 // DATA STRUCTS
 // bodies
 typedef struct Body{
 	int id;
 	char * name;
+	char sex;
 	int age;
-	int weight;
-	int height;
+	double weight;
+	double height;
+	char* cause_of_death;
+	// date date_of_death; 
 }Body, *BodyPtr;
+
+// Data Structure -> Hast Table
+// Hash Function -> Add ASCII values, Division function -> Linear Probing for collision
 
 // stack
 typedef struct node{
