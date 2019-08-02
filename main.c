@@ -30,7 +30,7 @@ typedef struct Body{
 // stack
 typedef struct node{
 	BodyPtr data;
-	struct node *next
+	struct node *next;
 }Node, *NodePtr;
 
 // FUNCTIONS
@@ -55,21 +55,60 @@ void addRecord(char * name, int age, int weight, int height);
 //
 // deleteRecord()
 //
-// search()
-
+int search();
+// sort()
+void searchName(char * name);
+//
+//quick sort
+void idQuickSort(BodyPtr arr, int low, int high);
+int idPartition(BodyPtr arr, int low, int high);
+void swap(BodyPtr a, BodyPtr b);
 // readCSV()
 //
 // writeCSV()
+void printRecords(BodyPtr arr);
 
-//
-// DFTSearch()
+int size = 10;
 
 void main(int argc,int argv){
 	//load Records
 	
 	//Call main menu:
-	mainMenu();
+	//BodyPtr body_collection = (BodyPtr*)calloc(size, sizeof(Body));
+	BodyPtr aa = (BodyPtr )calloc(size, sizeof(Body));
+	BodyPtr ab = aa;
+	int j = 55;
+	for(int i = 0; i < size; i++){
+		j--;
+		aa->id = j;
+		printf("main: %d\n", aa->id);
+		aa++;
+	}
+	aa--;
+	
+	printf("beginning and end ids: %d  %d", ab->id, aa->id);
+	printRecords(ab);
+	printf("\n\nSorted:");
+	idQuickSort(ab, 0, size-1);
+	printRecords(ab);
+
+	//mainMenu();
 }
+
+int search(Body * ab[], int sin){
+	// if search returns -1 then index doesnt exist
+	int index = -1;
+	for(int i = 0; i < size; i++){
+		if(ab[i]->id == sin){
+			index = i;
+			ab++;
+		}
+		else{
+			ab++;
+		}
+	}
+}
+
 
 void mainMenu(){
 	char select;
@@ -94,6 +133,18 @@ void mainMenu(){
 			quit();		
 	}
 }
+
+void printRecords(Body * arr){
+	BodyPtr temp = arr;
+	
+	for(int i = 0; i < size; i++){
+	printf("\nID: %d", temp->id);
+	temp++;
+	}
+
+}
+
+
 
 void addMenu(){
 	char name[50];
@@ -134,6 +185,63 @@ void addMenu(){
 			break;
 	}
 }
+
+// array must have no gaps (convert hash table to array before adding)
+void idQuickSort(BodyPtr arr, int low, int high){
+	printf("low: %d high: %d", low, high);
+	
+	if (low < high){
+		//pi is partition index
+		int pi = idPartition(arr, low, high);
+		idQuickSort(arr, low, pi-1);
+		idQuickSort(arr, pi+1, high);
+	}
+}
+
+int idPartition(BodyPtr arr, int low, int high){
+	
+	int pivot = &arr[high].id;
+	int i = low;
+	printf("partitioning low: %d", low);
+	for (int j = low; j <= high-1; j++){
+		if(arr[j].id <= pivot){
+			printf("swapping");
+			swap(&arr[i], &arr[j]);
+			i++;
+		}
+	}
+	swap(&arr[i], &arr[high]);
+	return i;
+}
+
+void swap(BodyPtr a, BodyPtr b){
+	
+	Body temp;
+	
+	temp.id = a->id;
+	temp.name = a->name;
+	temp.sex = a->sex;
+	temp.age = a->age;
+	temp.weight = a->weight;
+	temp.height = a->height;
+	temp.cause_of_death = a->cause_of_death;
+	
+	a->id = b->id;
+	a->name = b->name;
+	a->sex = b->sex;
+	a->age = b->age;
+	a->weight = b->weight;
+	a->height = b->height;
+	a->cause_of_death = b->cause_of_death;
+	
+	b->id = temp.id;
+	b->name = temp.name;
+	b->sex = temp.sex;
+	b->age = temp.age;
+	b->weight = temp.weight;
+	b->height = temp.height;
+	b->cause_of_death = temp.cause_of_death;
+	}
 
 void addRecord(char name[], int age, int weight, int height){
 	char confirm;
