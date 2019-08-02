@@ -25,7 +25,7 @@ const int MAX_STRING_CAPACITY = 100;
 char* remove_newline(char *string)
 {
     int x;
-    for(x = 0; x <= MAX_STRING_CAPACITY; x++)
+    for(x = 0; x < MAX_STRING_CAPACITY; x++)
     {
         if( string[x] == '\n')
         {
@@ -90,8 +90,8 @@ Body create_body_empty(int id)
 {
     Body body;
     body.id = id;
-    body.name = calloc(MAX_MORGUE_CAPACITY, sizeof(char));
-    body.cause_of_death = calloc(MAX_CAPACITY, sizeof(char));
+    body.name = calloc(MAX_STRING_CAPACITY, sizeof(char));
+    body.cause_of_death = calloc(MAX_STRING_CAPACITY, sizeof(char));
     return body;
 }
 
