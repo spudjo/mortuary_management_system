@@ -13,12 +13,10 @@
 
 // array must have no gaps (convert hash table to array before adding)
 void idQuickSort(BodyPtr arr, int low, int high){
-	printf("low: %d high: %d", low, high);
 	
 	if (low < high){
 		//pi is partition index
 		int pi = idPartition(arr, low, high);
-		printf("%d pi\n", pi);
 		idQuickSort(arr, low, pi-1);
 		idQuickSort(arr, pi+1, high);
 	}
@@ -35,10 +33,9 @@ int idPartition(BodyPtr arr, int low, int high){
 			i++;
 		}
 	}
-	printf("swapping %d %d ", arr[i].id, arr[high].id);
+	
 	swap(&arr[i], &arr[high]);
 	
-	printf("swapping 2%d %d ", arr[i].id, arr[high].id);
 	return i;
 }
 
