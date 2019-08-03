@@ -43,12 +43,27 @@ void delete_body(BodyPtr body_collection)
     int id_exists = validate_existing_id(body_collection, id);
     if (id_exists == 0)
     {
-        printf("No record with ID of %04d", id);
+        printf("Record not found!");
         return;
     }
     
+    // Linear search to find hash code
+    // This is only temporary, will replace with better search later
+    int hash_code;
+    for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
+    {
+        if (body_collection[i].name != NULL)
+        {
+            if (body_collection[i].id == id)
+            {
+                hash_code = i;
+                break;
+            } 
+        }
+    }
+
     printf("Delete the following record?\n");
-    print_body_info(body_collection[id]);
+    print_body_info(body_collection[hash_code]);
     
     while (select != 'Y' && select != 'y' && select != 'N' && select != 'n')
     {
@@ -56,12 +71,15 @@ void delete_body(BodyPtr body_collection)
         printf("Seletion: ");
         select = getchar();
         getchar();
-        printf("\n");
 
         if (select == 'Y' || select == 'y')
         {
             printf("Record deleted!");
-//            body_collection[id] = create_body_empty(id);//
+            BodyPtr temp = *body_collection[hash_code];
+            free(temp);
+            Body body = {};
+            body_collection[hash_code] = body;
+
         } else if (select == 'N' || select == 'n')
         {
             printf("Record will not be deleted.");
@@ -122,9 +140,9 @@ void update_body(BodyPtr body_collection)
         
         printf("\n");
         printf("Options:\n");
-        printf("Name: n   |   Sex: s   |   Age: a   |   Weight: w   |   Height: h\n");
-        printf("Date of death: d   |   Cause of death: c\n");
-        printf("Quit and Save : q   |   Quit without Saving: x\n\n");
+        printf("Name: n Sex: s Age: a Weight: w Height: h\n");
+        printf("Date of death: d Cause of death: c\n");
+        printf("Quit and Save : q Quit without Saving: x\n");
         printf("Selection: ");
  
         select = getchar();

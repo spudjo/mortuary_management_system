@@ -136,7 +136,7 @@ Body create_body_empty(int id)
     body.id = id;
     body.age = 0;
     body.sex = 'X';
-    body.date_of_death = create_date(1111, 11, 11); 
+    body.date_of_death = create_date(1234, 56, 78); 
     body.weight = 0;
     body.height = 0;
     body.name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));

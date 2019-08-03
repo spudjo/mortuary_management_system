@@ -16,7 +16,6 @@
 // Shawn: Data Structure, Add, Update, Display All Records
 
 void main(int argc,int argv){
-
 	mainMenu();
         return (EXIT_SUCCESS);
         
