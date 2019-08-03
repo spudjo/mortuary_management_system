@@ -162,15 +162,48 @@ BodyPtr create_body_collection(int size)
 }
 
 /*
- * Hash Function, directly adds body to collection array based on id
- * TODO:
- * Too simple right now.
- * Hash Function will be based off of name, converting ASCII to int, then dividing
- * Collision will be handled via linear probind
+ * Hash function
+ * Generates a hash code with polynomial hash generation
+ * Collisions are handled via Quadratic probing
  */
 void add_to_collection(BodyPtr body_collection, Body body)
 {
-    body_collection[body.id] = body;
+    int hash_code = hash_function(body);
+//    printf("Hash Code: %d\n", hash_code);
+    hash_code = quadratic_probing(body_collection, hash_code);
+//    printf("Final Hash Code: %d\n", hash_code);
+    body_collection[hash_code] = body;
+}
+
+/*
+ * Polynomial hash code generation
+ */
+int hash_function(Body body)
+{
+    int sum = 1;
+    char *string = body.name;
+    while (*string != '\0')
+    {
+        sum *= ((int)*string + 97);
+        *string++;
+    }
+    return sum % MAX_MORGUE_CAPACITY;
+}
+
+/*
+ * Quadratic probing to handling collisions
+ */
+int quadratic_probing(BodyPtr body_collection, int hash_code)
+{
+    int counter = 1;
+    int new_hash_code = hash_code;
+    while(body_collection[new_hash_code].name != NULL)
+    {
+//        printf("Space taken, probing...\n");
+        new_hash_code = (hash_code + counter * counter) % MAX_MORGUE_CAPACITY;
+        counter++;
+    }
+    return new_hash_code;
 }
 
 /*
