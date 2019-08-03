@@ -49,6 +49,7 @@ void delete_body(BodyPtr body_collection)
     
     // Linear search to find hash code
     // This is only temporary, will replace with better search later
+<<<<<<< Updated upstream
     int hash_code;
     for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
     {
@@ -64,6 +65,23 @@ void delete_body(BodyPtr body_collection)
 
     printf("Delete the following record?\n");
     print_body_info(body_collection[hash_code]);
+=======
+//    int hash_code;
+//    for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
+//    {
+//        if (body_collection[i].name != NULL)
+//        {
+//            if (body_collection[i].id == id)
+//            {
+//                hash_code = i;
+//                break;
+//            } 
+//        }
+//    }
+
+    printf("Delete the following record?\n");
+    print_body_info(body_collection[id]);
+>>>>>>> Stashed changes
     
     while (select != 'Y' && select != 'y' && select != 'N' && select != 'n')
     {
@@ -75,10 +93,15 @@ void delete_body(BodyPtr body_collection)
         if (select == 'Y' || select == 'y')
         {
             printf("Record deleted!");
+<<<<<<< Updated upstream
             BodyPtr temp = &body_collection[hash_code];
             free(temp);
             Body body = {};
             body_collection[hash_code] = body;
+=======
+            Body body = {};
+            body_collection[id] = body;
+>>>>>>> Stashed changes
 
         } else if (select == 'N' || select == 'n')
         {
@@ -116,6 +139,7 @@ void update_body(BodyPtr body_collection)
     
     // Linear search to find hash code
     // This is only temporary, will replace with better search later
+<<<<<<< Updated upstream
     int hash_code;
     for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
     {
@@ -130,6 +154,22 @@ void update_body(BodyPtr body_collection)
     }
     
     temp_body = body_collection[hash_code];
+=======
+//    int hash_code;
+//    for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
+//    {
+//        if (body_collection[i].name != NULL)
+//        {
+//            if (body_collection[i].id == id)
+//            {
+//                hash_code = i;
+//                break;
+//            } 
+//        }
+//    }
+    
+    temp_body = body_collection[id];
+>>>>>>> Stashed changes
     // end
     
     while (select != 'q' && select != 'x')
@@ -177,7 +217,11 @@ void update_body(BodyPtr body_collection)
     
     if (select == 'q')
     {
+<<<<<<< Updated upstream
        body_collection[hash_code] = temp_body; 
+=======
+       body_collection[id] = temp_body; 
+>>>>>>> Stashed changes
     }  
 }
 
@@ -191,19 +235,31 @@ void add_body(BodyPtr body_collection)
     printf("\n***************************************************************************\n");
     printf("*                           A D D - R E C O R D                           *");
     printf("\n***************************************************************************\n");
+<<<<<<< Updated upstream
     printf("Enter ID of new body: ");
     int id;
     scanf("%d", &id);
     getchar();
+=======
+>>>>>>> Stashed changes
     
-    int id_exists = validate_existing_id(body_collection, id);
-    if (id_exists == 1)
-    {
-        printf("ID is currently being used");
-        return;
-    }
+//    printf("Enter ID of new body: ");
+//    int id;
+//    scanf("%d", &id);
+//    getchar();
+//    
+//    int id_exists = validate_existing_id(body_collection, id);
+//    if (id_exists == 1)
+//    {
+//        printf("ID is currently being used");
+//        return;
+//    }
     
+<<<<<<< Updated upstream
     Body body = create_body_empty(id);
+=======
+    Body body = create_body_empty();
+>>>>>>> Stashed changes
     body = set_body_name(body);
     body = set_body_sex(body);
     body = set_body_age(body);
@@ -211,6 +267,10 @@ void add_body(BodyPtr body_collection)
     body = set_body_height(body);
     body = set_body_date_of_death(body);
     body = set_body_cause_of_death(body);
+<<<<<<< Updated upstream
+=======
+    body.id = generate_hash_code(body_collection, body);
+>>>>>>> Stashed changes
     
     print_body_info(body);
     char select;
@@ -223,7 +283,10 @@ void add_body(BodyPtr body_collection)
         
         select = getchar();
         getchar();
+<<<<<<< Updated upstream
         printf("\n");
+=======
+>>>>>>> Stashed changes
 
         if (select == 'y' || select == 'Y')
         {
@@ -250,4 +313,8 @@ extern "C" {
 
 #endif /* MENU_FUNCTIONS_H */
 
+<<<<<<< Updated upstream
     
+=======
+    
+>>>>>>> Stashed changes

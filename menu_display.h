@@ -43,6 +43,29 @@ void print_introduction()
     printf("***************************************************************************\n");
 }
 
+<<<<<<< Updated upstream
+=======
+void print_skull_bois()
+{
+    printf("***************************************************************************\n");                
+    printf("* (/_   .-.               ==.      .==     .-.                            *\n");       
+    printf("*  \\\\, (o.o)               /,     ,/      (o.o)        Kimberley Byrne    *\n");       
+    printf("*   ()  (=)               //     //        (n)         Steven Carino      *\n");         
+    printf("*    \\\\.=\"=-.  (|/       ()     ()       .-=\"=-.  \\)   Shawn Pudjowargono *\n");     
+    printf("*      ==|==\\\\,/          \\\\   //       // =T= \\\\,/                       *\n");         
+    printf("*       ===  ()            \\\\ //       () ==|== ()                        *\n");
+    printf("*       =.=                (0w0)        \\  =\"=                \\)/ .-.     *\n");
+    printf("*      (0w0)____            =,=         /)(0w0)                /,(o,o)    *\n");                          
+    printf("*       \\\\ ----()\\         =====          // \\\\               ()  (w)     *\n");
+    printf("*        \\\\      `\\       .==I==.        //   \\\\       /_ ___  \\\\,=\",     *\n");                 
+    printf("*         ()       \"==  //  (=)  \\\\     ()     ()      '-()-()   =/=\\\\    *\n");     
+    printf("*        //            ()  (d'b)  ()     \\\\    ||       //\\\\||  ==== ()   *\n");      
+    printf("*       '/              \\`  '-'  `/       \\'   '|      /`  \\\\|  =\"=  `|   *\n");               
+    printf("*       \"==            /|\\       /\\\\    ==\"     \"==  ==\"    `(0w0)    '-- *\n");
+    printf("***************************************************************************\n");
+}
+
+>>>>>>> Stashed changes
 //
 // Design templates //
 // 
@@ -80,7 +103,10 @@ void deleteMenu(BodyPtr body_collection){
 
 // QUIT MENU
 void quit(){
-	printf("\n\nExiting application, have a beautiful day.");
+	printf("\n\nExiting application, have a beautiful day!\n");
+        printf("(Press enter key to exit)");
+        getchar();
+        
 	exit(0);
 }
 
@@ -94,17 +120,28 @@ void mainMenu(){
         // after this, program will read from a file and create bodies
         
         // start creating dummy data
+<<<<<<< Updated upstream
         Body body_A = create_body(5, "Shawn Pudjowargono", 'M', 27, 1991, 9, 5, 111, 222, "Elephant stampede");
         Body body_B = create_body(8, "Steven Carino", 'M', 30, 1989, 11, 22, 99, 88.5, "Crushed by piano");
         Body body_C = create_body(4, "Casey Byrne", 'F', 26, 1992, 33, 44, 555, 666, "Misadventure");
+=======
+        Body body_A = create_body("Shawn Pudjowargono", 'M', 27, 1991, 9, 5, 111, 222, "Elephant stampede", body_collection);
+        Body body_B = create_body("Steven Carino", 'M', 30, 1989, 11, 22, 99, 88.5, "Crushed by piano", body_collection);
+        Body body_C = create_body("Casey Byrne", 'F', 26, 1992, 33, 44, 555, 666, "Misadventure", body_collection);
+>>>>>>> Stashed changes
         add_to_collection(body_collection, body_A);
         add_to_collection(body_collection, body_B);
         add_to_collection(body_collection, body_C);
         // end create dummy data
 	
+<<<<<<< Updated upstream
 	stars(2);
 	printf("Welcome to St.Anthony's Mortuary\n");
         
+=======
+	stars(1);
+//	printf("Welcome to St.Anthony's Mortuary\n");
+>>>>>>> Stashed changes
         while (1)
         {
             printf("\n***************************************************************************\n");

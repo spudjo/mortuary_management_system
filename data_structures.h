@@ -58,6 +58,12 @@ typedef struct body
 //
 // Hash Storing: Hash_function, quadratic_probing
 //
+int generate_hash_code(BodyPtr body_collection, Body body)
+{
+    int hash_code = hash_function(body);
+    hash_code = quadratic_probing(body_collection, hash_code);
+    return hash_code;
+}
 
 /*
  * ASCII hash code generation
@@ -109,13 +115,13 @@ DatePtr create_date(int year, int month, int day)
 /*
  * Creates and returns Body based on parameters passed
  */
-Body create_body(int id, char name[], char sex, int age, 
+Body create_body(char name[], char sex, int age, 
                  int year, int month, int day, 
-                 double weight, double height, char cause_of_death[])
+                 double weight, double height, char cause_of_death[],
+                 BodyPtr body_collection)
 {       
     Body body;
-    body.id = id;
-//    strcpy(body.name, name);
+//    body.id = id;
     body.name = name;
     body.sex = sex;
     body.age = age;  
@@ -123,17 +129,17 @@ Body create_body(int id, char name[], char sex, int age,
     body.weight = weight;
     body.height = height;
     body.cause_of_death = cause_of_death;
-//    strcpy(body.cause_of_death, cause_of_death);
+    body.id = generate_hash_code(body_collection, body); // sets id based on hash code 
     return body;
 }
 
 /*
  * Creates and returns an empty Body with only ID set
  */
-Body create_body_empty(int id)
+Body create_body_empty()
 {
     Body body;
-    body.id = id;
+    body.id = 0;
     body.age = 0;
     body.sex = 'X';
     body.date_of_death = create_date(1234, 56, 78); 
@@ -160,11 +166,7 @@ BodyPtr create_body_collection(int size)
  */
 void add_to_collection(BodyPtr body_collection, Body body)
 {
-    int hash_code = hash_function(body);
-//    printf("Hash Code: %d\n", hash_code);
-    hash_code = quadratic_probing(body_collection, hash_code);
-//    printf("Final Hash Code: %d\n", hash_code);
-    body_collection[hash_code] = body;
+    body_collection[body.id] = body;
 }
 
 /*
@@ -296,6 +298,7 @@ int validate_existing_id(BodyPtr body_collection, int id)
 {
     for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
     {
+<<<<<<< Updated upstream
         if (body_collection[i].id == id)
         {
 //            printf("\nFound\n");
@@ -304,6 +307,23 @@ int validate_existing_id(BodyPtr body_collection, int id)
         }
     }
     return 0; // id does not exist
+=======
+        // valid id
+        return 1;
+    }
+    return 0;
+//        
+//    for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
+//    {
+//        if (body_collection[i].id == id)
+//        {
+////            printf("\nFound\n");
+////            printf("Returning...");
+//            return 1; // id exists
+//        }
+//    }
+//    return 0; // id does not exist
+>>>>>>> Stashed changes
 }
 
 //
