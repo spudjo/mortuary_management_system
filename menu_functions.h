@@ -17,7 +17,6 @@
 #include <time.h>
 #include <windows.h>
 #include <string.h>
-#include <time.h>
 
 #ifndef MENU_FUNCTIONS_H
 #define MENU_FUNCTIONS_H

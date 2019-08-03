@@ -11,7 +11,6 @@
 #include <time.h>
 #include <windows.h>
 #include <string.h>
-#include <time.h>
 
 #ifndef DATA_STRUCTURES_H
 #define DATA_STRUCTURES_H
