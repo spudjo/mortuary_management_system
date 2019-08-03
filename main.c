@@ -193,6 +193,7 @@ void idQuickSort(BodyPtr arr, int low, int high){
 	if (low < high){
 		//pi is partition index
 		int pi = idPartition(arr, low, high);
+		printf("%d pi\n", pi);
 		idQuickSort(arr, low, pi-1);
 		idQuickSort(arr, pi+1, high);
 	}
@@ -200,31 +201,31 @@ void idQuickSort(BodyPtr arr, int low, int high){
 
 int idPartition(BodyPtr arr, int low, int high){
 	
-	int pivot = &arr[high].id;
+	int pivot = arr[high].id;
 	int i = low;
-	printf("partitioning low: %d", low);
+	printRecords(arr);
 	for (int j = low; j <= high-1; j++){
 		if(arr[j].id <= pivot){
-			printf("swapping");
 			swap(&arr[i], &arr[j]);
 			i++;
 		}
 	}
+	printf("swapping %d %d ", arr[i].id, arr[high].id);
 	swap(&arr[i], &arr[high]);
+	
+	printf("swapping 2%d %d ", arr[i].id, arr[high].id);
 	return i;
 }
 
 void swap(BodyPtr a, BodyPtr b){
-	
-	Body temp;
-	
-	temp.id = a->id;
-	temp.name = a->name;
-	temp.sex = a->sex;
-	temp.age = a->age;
-	temp.weight = a->weight;
-	temp.height = a->height;
-	temp.cause_of_death = a->cause_of_death;
+	BodyPtr temp = (BodyPtr*)malloc(sizeof(Body));
+	temp->id = a->id;
+	temp->name = a->name;
+	temp->sex = a->sex;
+	temp->age = a->age;
+	temp->weight = a->weight;
+	temp->height = a->height;
+	temp->cause_of_death = a->cause_of_death;
 	
 	a->id = b->id;
 	a->name = b->name;
@@ -234,13 +235,14 @@ void swap(BodyPtr a, BodyPtr b){
 	a->height = b->height;
 	a->cause_of_death = b->cause_of_death;
 	
-	b->id = temp.id;
-	b->name = temp.name;
-	b->sex = temp.sex;
-	b->age = temp.age;
-	b->weight = temp.weight;
-	b->height = temp.height;
-	b->cause_of_death = temp.cause_of_death;
+	b->id = temp->id;
+	b->name = temp->name;
+	b->sex = temp->sex;
+	b->age = temp->age;
+	b->weight = temp->weight;
+	b->height = temp->height;
+	b->cause_of_death = temp->cause_of_death;
+	
 	}
 
 void addRecord(char name[], int age, int weight, int height){
