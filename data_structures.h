@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   data_structures.h
  * Author: Shawn
@@ -176,15 +170,15 @@ void add_to_collection(BodyPtr body_collection, Body body)
 }
 
 /*
- * Polynomial hash code generation
+ * ASCII hash code generation
  */
 int hash_function(Body body)
 {
-    int sum = 1;
+    int sum;
     char *string = body.name;
     while (*string != '\0')
     {
-        sum *= ((int)*string + 97);
+        sum += (int)*string;
         *string++;
     }
     return sum % MAX_MORGUE_CAPACITY;
