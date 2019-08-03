@@ -294,11 +294,16 @@ Body set_body_cause_of_death(Body body)
  */
 int validate_existing_id(BodyPtr body_collection, int id)
 {
-    if (body_collection[id].name != NULL)
+    for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
     {
-        return 1;
+        if (body_collection[i].id == id)
+        {
+//            printf("\nFound\n");
+//            printf("Returning...");
+            return 1; // id exists
+        }
     }
-    return 0;
+    return 0; // id does not exist
 }
 
 //
@@ -311,7 +316,7 @@ int validate_existing_id(BodyPtr body_collection, int id)
  */
 void print_date(DatePtr date)
 {
-    printf("         | Date of Death: %d-%02d-%02d | ", date->year, date->month, date->day);
+    printf("         | Date of Death: %d-%02d-%02d\n", date->year, date->month, date->day);
 }
 
 /*
@@ -323,7 +328,7 @@ void print_body_info(Body body)
     printf("         | Sex: %c | Age: %02d | Weight: %03.2lf KG | Height: %03.2lf CM\n", 
             body.sex, body.age, body.weight, body.height);
     print_date(body.date_of_death);
-    printf("Cause of Death: %s\n", body.cause_of_death); 
+    printf("         | Cause of Death: %s\n", body.cause_of_death); 
 }
 
 /*
@@ -333,9 +338,9 @@ void print_body_info(Body body)
  */
 void print_body_collection(BodyPtr body_collection)
 {
-    printf("\n=================================================================\n");
-    printf("=                 B O D Y - C O L L E C T I O N                 =");
-    printf("\n=================================================================\n");
+    printf("\n***************************************************************************\n");
+    printf("*                      B O D Y   C O L L E C T I O N                      *");
+    printf("\n***************************************************************************\n");
     for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
     {
         if (body_collection[i].name != NULL)
@@ -343,7 +348,6 @@ void print_body_collection(BodyPtr body_collection)
             print_body_info(body_collection[i]);
         }
     }
-    printf("=================================================================\n");
 }
 
 

@@ -24,17 +24,37 @@
 #define MENU_DISPLAY_H
 
 //
+// Prints out introduction //
+//
+void print_introduction()
+{
+    printf("***************************************************************************\n");
+    printf("*  ____   _           _            _    _                           _     *\n");
+    printf("* / ___| | |_        / \\    _ __  | |_ | |__    ___   _ __   _   _ ( )___ *\n");
+    printf("* \\___ \\ | __|      / _ \\  | '_ \\ | __|| '_ \\  / _ \\ | '_ \\ | | | ||// __|*\n");
+    printf("*  ___) || |_  _   / ___ \\ | | | || |_ | | | || (_) || | | || |_| |  \\__ \\*\n");
+    printf("* |____/  \\__|(_) /_/   \\_\\|_| |_| \\__||_| |_| \\___/ |_| |_| \\__, |  |___/*\n");
+    printf("*  __  __               _                                    |___/        *\n");
+    printf("* |  \\/  |  ___   _ __ | |_  _   _   __ _  _ __  _   _                    *\n");
+    printf("* | |\\/| | / _ \\ | '__|| __|| | | | / _` || '__|| | | |                   *\n");
+    printf("* | |  | || (_) || |   | |_ | |_| || (_| || |   | |_| |                   *\n");
+    printf("* |_|  |_| \\___/ |_|    \\__| \\__,_| \\__,_||_|    \\__, |                   *\n");
+    printf("*                                                |___/                    *\n");
+    printf("***************************************************************************\n");
+}
+
+//
 // Design templates //
 // 
 void stars(int i){
 	//how many stars do you need?
 	switch(i){
 	case 3:
-	printf("********** **********\n");
+	printf("************************************* *************************************\n");
 	case 2:
-	printf("********** **********\n");
+	printf("************************************* *************************************\n");
 	case 1:
-	printf("********** **********\n");
+	printf("************************************* *************************************\n");
 	}
 }
 
@@ -44,44 +64,18 @@ void stars(int i){
 
 // ADD MENU
 
-void addMenu(){
-	char name[50];
-	int age = 0;
-	int weight = 0;
-	int height = 0;
-	char confirm;
+void addMenu(BodyPtr body_collection){
+        add_body(body_collection);
+}
 
-	printf("Add a Record\n");
-	printf("Enter Name:\n");
-	scanf("%s",&name);
-	fflush(stdin);
-	printf("Enter Age:\n");
-	scanf("%d", &age);
-	printf("Enter Weight at death:\n");
-	scanf("%d", &weight);
-	printf("Enter Height at death:\n");
-	scanf("%d", &height);
-	printf("\n");
-	printf("File: %s Age: %d Weight: %d Height: %d\n", name, age, weight, height);
-	printf("Save File? y/n \n");
-	
-	fflush(stdin);
-	scanf("%c", &confirm);
-	
-	switch(confirm){
-		case 'y':
-			//add the record
-			break;
-		case 'Y':
-			//add the record
-			break;
-		case 'n':
-			addMenu();
-			break;
-		case 'N':
-			addMenu();
-			break;
-	}
+// EDIT MENU
+void editMenu(BodyPtr body_collection){
+        update_body(body_collection);
+}
+
+// DELETE MENU
+void deleteMenu(BodyPtr body_collection){
+        delete_body(body_collection);
 }
 
 // QUIT MENU
@@ -92,27 +86,56 @@ void quit(){
 
 // MAIN MENU
 void mainMenu(){
-	char select;
+        print_introduction();
+	char select = 'a';
+        
+        // create body_collection
+        BodyPtr body_collection = create_body_collection(MAX_MORGUE_CAPACITY);
+        // after this, program will read from a file and create bodies
+        
+        // start creating dummy data
+        Body body_A = create_body(5, "Shawn Pudjowargono", 'M', 27, 1991, 9, 5, 111, 222, "Elephant stampede");
+        Body body_B = create_body(8, "Steven Carino", 'M', 30, 1989, 11, 22, 99, 88.5, "Crushed by piano");
+        Body body_C = create_body(4, "Casey Byrne", 'F', 26, 1992, 33, 44, 555, 666, "Misadventure");
+        add_to_collection(body_collection, body_A);
+        add_to_collection(body_collection, body_B);
+        add_to_collection(body_collection, body_C);
+        // end create dummy data
 	
 	stars(2);
 	printf("Welcome to St.Anthony's Mortuary\n");
-	stars(1);
-	printf("Options:\n");
-	printf("Add record: a  Edit record: e  Delete record: d  Search records: s  Quit: q\n");
-	scanf("%c", &select);
-	
-	switch(select){
-		case 'a':
-			addMenu();
-		case 'e':
-			//edit
-		case 'd':
-			//delete
-		case 's':
-			//search
-		case 'q':
-			quit();		
-	}
+        
+        while (1)
+        {
+            printf("\n***************************************************************************\n");
+            printf("*                            M A I N   M E N U                            *");
+            printf("\n***************************************************************************\n");
+            stars(1);
+            printf("Options:\n");
+            printf("Add record: a  Edit record: e  Delete record: d  Search records: s  Quit: q\n");
+            printf("Selection: ");
+            select = getchar();
+            getchar();
+            
+            switch(select){
+                case 'a':
+                    addMenu(body_collection);
+                    break;
+                case 'e':
+                    editMenu(body_collection);
+                    break;
+                case 'd':
+                    deleteMenu(body_collection);
+                    break;
+                case 's':
+                        //search, right now it just displays all bodies
+                    print_body_collection(body_collection);
+                    break;
+                case 'q':
+                    printf("Good bye!");
+                    return;
+            }      
+        }
 }
 
 

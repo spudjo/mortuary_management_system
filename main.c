@@ -18,9 +18,6 @@
 void main(int argc,int argv){
 
 	mainMenu();
-	
+        return (EXIT_SUCCESS);
+        
 }
-
-
-
-
