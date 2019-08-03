@@ -4,16 +4,13 @@
  *
  * Created on August 3, 2019, 11:59 AM
  */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <time.h>
-#include <windows.h>
-#include <string.h>
-
+ 
 #ifndef DATA_STRUCTURES_H
 #define DATA_STRUCTURES_H
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 const int MAX_MORGUE_CAPACITY = 1000;
 const int MAX_STRING_CAPACITY = 100;
@@ -35,6 +32,9 @@ char* remove_newline(char *string)
     return string;
 }
 
+//
+// DATA STRUCTURES: DATE, BODY
+//
 
 typedef struct date
 {
@@ -54,6 +54,45 @@ typedef struct body
     double height;
     char* cause_of_death; 
 }Body, *BodyPtr;
+
+//
+// Hash Storing: Hash_function, quadratic_probing
+//
+
+/*
+ * ASCII hash code generation
+ */
+int hash_function(Body body)
+{
+    int sum;
+    char *string = body.name;
+    while (*string != '\0')
+    {
+        sum += (int)*string;
+        *string++;
+    }
+    return sum % MAX_MORGUE_CAPACITY;
+}
+
+/*
+ * Quadratic probing to handling collisions
+ */
+int quadratic_probing(BodyPtr body_collection, int hash_code)
+{
+    int counter = 1;
+    int new_hash_code = hash_code;
+    while(body_collection[new_hash_code].name != NULL)
+    {
+//        printf("Space taken, probing...\n");
+        new_hash_code = (hash_code + counter * counter) % MAX_MORGUE_CAPACITY;
+        counter++;
+    }
+    return new_hash_code;
+}
+
+//
+// Body Functions
+//
 
 /*
  * Creates and returns DatePtr
@@ -100,49 +139,9 @@ Body create_body_empty(int id)
     body.date_of_death = create_date(1111, 11, 11); 
     body.weight = 0;
     body.height = 0;
-    body.name = calloc(MAX_STRING_CAPACITY, sizeof(char));
-    body.cause_of_death = calloc(MAX_STRING_CAPACITY, sizeof(char));
+    body.name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    body.cause_of_death = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
     return body;
-}
-
-/*
- * Prints Date field values to standard output
- */
-void print_date(DatePtr date)
-{
-    printf("         | Date of Death: %d-%02d-%02d | ", date->year, date->month, date->day);
-}
-
-/*
- * Prints Body field values to standard output
- */
-void print_body_info(Body body)
-{
-    printf("ID: %04d | Name: %s\n", body.id, body.name);
-    printf("         | Sex: %c | Age: %02d | Weight: %03.2lf KG | Height: %03.2lf CM\n", 
-            body.sex, body.age, body.weight, body.height);
-    print_date(body.date_of_death);
-    printf("Cause of Death: %s\n", body.cause_of_death); 
-}
-
-/*
- * Print information on all bodies in collection to standard output
- * TODO:
- * The condition for printing, body.name == NULL, may need to be changed
- */
-void print_body_collection(BodyPtr body_collection)
-{
-    printf("\n=================================================================\n");
-    printf("=                 B O D Y - C O L L E C T I O N                 =");
-    printf("\n=================================================================\n");
-    for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
-    {
-        if (body_collection[i].name != NULL)
-        {
-            print_body_info(body_collection[i]);
-        }
-    }
-    printf("=================================================================\n");
 }
 
 /*
@@ -150,7 +149,7 @@ void print_body_collection(BodyPtr body_collection)
  */
 BodyPtr create_body_collection(int size)
 {
-    BodyPtr body_collection = (BodyPtr*)calloc(size, sizeof(Body));
+    BodyPtr body_collection = (BodyPtr)calloc(size, sizeof(Body));
     return body_collection;
 }
 
@@ -169,37 +168,6 @@ void add_to_collection(BodyPtr body_collection, Body body)
 }
 
 /*
- * ASCII hash code generation
- */
-int hash_function(Body body)
-{
-    int sum;
-    char *string = body.name;
-    while (*string != '\0')
-    {
-        sum += (int)*string;
-        *string++;
-    }
-    return sum % MAX_MORGUE_CAPACITY;
-}
-
-/*
- * Quadratic probing to handling collisions
- */
-int quadratic_probing(BodyPtr body_collection, int hash_code)
-{
-    int counter = 1;
-    int new_hash_code = hash_code;
-    while(body_collection[new_hash_code].name != NULL)
-    {
-//        printf("Space taken, probing...\n");
-        new_hash_code = (hash_code + counter * counter) % MAX_MORGUE_CAPACITY;
-        counter++;
-    }
-    return new_hash_code;
-}
-
-/*
  * Sets value of name field in Body then returns
  * TODO:
  * Exception handling
@@ -208,7 +176,7 @@ Body set_body_name(Body body)
 {
     fflush(stdin);
     printf("Enter Name: ");
-    char *name = calloc(MAX_STRING_CAPACITY, sizeof(char));
+    char *name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
     fgets(name, MAX_STRING_CAPACITY, stdin); 
     fflush(stdin);
     name = remove_newline(name);
@@ -306,7 +274,7 @@ Body set_body_cause_of_death(Body body)
 {
     fflush(stdin);
     printf("Enter Cause of Death: ");
-    char *cause_of_death = calloc(MAX_STRING_CAPACITY, sizeof(char));
+    char *cause_of_death = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
     fgets(cause_of_death, MAX_STRING_CAPACITY, stdin); 
     fflush(stdin);
     cause_of_death = remove_newline(cause_of_death);
@@ -332,6 +300,52 @@ int validate_existing_id(BodyPtr body_collection, int id)
     }
     return 0;
 }
+
+//
+// Print functions
+//
+
+
+/*
+ * Prints Date field values to standard output
+ */
+void print_date(DatePtr date)
+{
+    printf("         | Date of Death: %d-%02d-%02d | ", date->year, date->month, date->day);
+}
+
+/*
+ * Prints Body field values to standard output
+ */
+void print_body_info(Body body)
+{
+    printf("ID: %04d | Name: %s\n", body.id, body.name);
+    printf("         | Sex: %c | Age: %02d | Weight: %03.2lf KG | Height: %03.2lf CM\n", 
+            body.sex, body.age, body.weight, body.height);
+    print_date(body.date_of_death);
+    printf("Cause of Death: %s\n", body.cause_of_death); 
+}
+
+/*
+ * Print information on all bodies in collection to standard output
+ * TODO:
+ * The condition for printing, body.name == NULL, may need to be changed
+ */
+void print_body_collection(BodyPtr body_collection)
+{
+    printf("\n=================================================================\n");
+    printf("=                 B O D Y - C O L L E C T I O N                 =");
+    printf("\n=================================================================\n");
+    for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
+    {
+        if (body_collection[i].name != NULL)
+        {
+            print_body_info(body_collection[i]);
+        }
+    }
+    printf("=================================================================\n");
+}
+
 
 #ifdef __cplusplus
 extern "C" {

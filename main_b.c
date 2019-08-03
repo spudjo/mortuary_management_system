@@ -403,7 +403,7 @@ int validate_existing_id(BodyPtr body_collection, int id)
  * 
  */
 int main(int argc, char** argv) {
-    
+
     // array of Body structs
     BodyPtr body_collection = create_body_collection(MAX_MORGUE_CAPACITY);
     

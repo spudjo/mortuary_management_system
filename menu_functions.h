@@ -11,6 +11,9 @@
  * Created on August 3, 2019, 12:17 PM
  */
 
+#ifndef MENU_FUNCTIONS_H
+#define MENU_FUNCTIONS_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -18,9 +21,7 @@
 #include <windows.h>
 #include <string.h>
 #include "data_structures.h"
-
-#ifndef MENU_FUNCTIONS_H
-#define MENU_FUNCTIONS_H
+#include "fsort.h"
 
 /*
  * Deletes Body in collection based on ID provided

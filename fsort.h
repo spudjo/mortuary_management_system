@@ -6,41 +6,14 @@
  * For The Sort Functions
  */
 
-
 #ifndef F_SORT
 #define F_SORT
 
+#include "data_structures.h"
 
-// array must have no gaps (convert hash table to array before adding)
-void idQuickSort(BodyPtr arr, int low, int high){
-	
-	if (low < high){
-		//pi is partition index
-		int pi = idPartition(arr, low, high);
-		idQuickSort(arr, low, pi-1);
-		idQuickSort(arr, pi+1, high);
-	}
-}
-
-int idPartition(BodyPtr arr, int low, int high){
-	
-	int pivot = arr[high].id;
-	int i = low;
-	printRecords(arr);
-	for (int j = low; j <= high-1; j++){
-		if(arr[j].id <= pivot){
-			swap(&arr[i], &arr[j]);
-			i++;
-		}
-	}
-	
-	swap(&arr[i], &arr[high]);
-	
-	return i;
-}
-
+// swap function for all QSorts
 void swap(BodyPtr a, BodyPtr b){
-	BodyPtr temp = (BodyPtr*)malloc(sizeof(Body));
+	BodyPtr temp = (BodyPtr)malloc(sizeof(Body));
 	temp->id = a->id;
 	temp->name = a->name;
 	temp->sex = a->sex;
@@ -64,7 +37,50 @@ void swap(BodyPtr a, BodyPtr b){
 	b->weight = temp->weight;
 	b->height = temp->height;
 	b->cause_of_death = temp->cause_of_death;
-	
 	}
+
+int idPartition(BodyPtr arr, int low, int high){
+	
+	int pivot = arr[high].id;
+	int i = low;
+	for (int j = low; j <= high-1; j++){
+		if(arr[j].id <= pivot){
+			swap(&arr[i], &arr[j]);
+			i++;
+		}
+	}
+	
+	swap(&arr[i], &arr[high]);
+	
+	return i;
+}
+
+// array must have no gaps (convert hash table to array before adding)
+void idQuickSort(BodyPtr arr, int low, int high){
+	
+	if (low < high){
+		//pi is partition index
+		int pi = idPartition(arr, low, high);
+		idQuickSort(arr, low, pi-1);
+		idQuickSort(arr, pi+1, high);
+	}
+}
+
+
+/*
+	int search(Body * ab[], int sin){
+	// if search returns -1 then index doesnt exist
+	int index = -1;
+	for(int i = 0; i < size; i++){
+		if(ab[i]->id == sin){
+			index = i;
+			ab++;
+		}
+		else{
+			ab++;
+		}
+	}
+}
+*/
 
 #endif
