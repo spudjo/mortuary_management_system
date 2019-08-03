@@ -75,7 +75,7 @@ void delete_body(BodyPtr body_collection)
         if (select == 'Y' || select == 'y')
         {
             printf("Record deleted!");
-            BodyPtr temp = *body_collection[hash_code];
+            BodyPtr temp = &body_collection[hash_code];
             free(temp);
             Body body = {};
             body_collection[hash_code] = body;

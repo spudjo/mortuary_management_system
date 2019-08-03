@@ -132,7 +132,7 @@ void mainMenu(){
                     print_body_collection(body_collection);
                     break;
                 case 'q':
-                    printf("Good bye!");
+                    quit();
                     return;
             }      
         }
