@@ -16,8 +16,7 @@
 // Shawn: Data Structure, Add, Update, Display All Records
 
 void main(int argc,int argv){
-
-        print_skull_bois();
+    print_skull_bois();
 	mainMenu();
 	
 }
