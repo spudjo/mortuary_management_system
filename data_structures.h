@@ -61,16 +61,6 @@ int top;
 int ST[1000]; 
 }StackType, *Stack;
 
-//
-// Hash Storing: Hash_function, quadratic_probing
-//
-int generate_hash_code(BodyPtr body_collection, Body body)
-{
-    int hash_code = hash_function(body);
-//    printf("%s Hash: %d\n", body.name, hash_code);
-    hash_code = quadratic_probing(body_collection, hash_code);
-    return hash_code;
-}
 
 /*
  * ASCII hash code generation
@@ -105,6 +95,17 @@ int quadratic_probing(BodyPtr body_collection, int hash_code)
         counter++;
     }
     return new_hash_code;
+}
+
+//
+// Hash Storing: Hash_function, quadratic_probing
+//
+int generate_hash_code(BodyPtr body_collection, Body body)
+{
+    int hash_code = hash_function(body);
+//    printf("%s Hash: %d\n", body.name, hash_code);
+    hash_code = quadratic_probing(body_collection, hash_code);
+    return hash_code;
 }
 
 //

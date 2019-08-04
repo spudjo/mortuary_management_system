@@ -14,9 +14,12 @@
 #ifndef MENU_DISPLAY_H
 #define MENU_DISPLAY_H
 
+
+#include "menu_functions.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include <time.h>
 #include <windows.h>
 #include <string.h>
@@ -100,44 +103,57 @@ void stars(int i){
 // ADD MENU
 
 void addMenu(BodyPtr body_collection){
-        add_body(body_collection);
+    add_body(body_collection);
 }
 
 // EDIT MENU
 void editMenu(BodyPtr body_collection){
-        update_body(body_collection);
+    update_body(body_collection);
 }
 
 // DELETE MENU
 void deleteMenu(BodyPtr body_collection){
-        delete_body(body_collection);
+    delete_body(body_collection);
 }
 
-void searchMenu(BodyPtr body_collection){
+void displayMenu(BodyPtr body_collection){
+	
+	char select = "!";
+	while(select !="A" && select !="D" && select !="I"){
 	stars(1);
     printf("\n***************************************************************************\n");
-    printf("*                         S E A R C H   M E N U                            *");
+    printf("*                       D I S P L A Y   M E N U                            *");
     printf("\n***************************************************************************\n");
 	stars(1);
 	
-	printf("a : id ascending");
-	char select = getchar();
+	printf("\nOPTIONS:");
+	stars(1);
+	printf("\nALPHABETICAL: asc: A desc: D");
+	
+	printf("\nID SEARCH: asc: A desc: D");
+	
+	select = getchar();
+	}
 	fflush(stdin);
+	
 	switch(select){
-		case 'a':
-		;
-		BodyPtr body_arr = convert_to_body_array(body_collection);
-		int arrSize = 0;
-		arrSize = findSize(body_collection);
-    	idQuickSort(body_arr, 0 , arrSize-1);
-    	printf("\n  %s  %d", body_arr[0].name, body_arr[0].id);
-    	printf("\n  %s  %d", body_arr[1].name, body_arr[1].id);
-    	printf("\n  %s  %d", body_arr[2].name, body_arr[2].id);
-		printf("\narray size %d", arrSize);	
-    	fflush(stdin);
-    	getchar();
+		case 'A':
+			;
+			BodyPtr body_arr = convert_to_body_array(body_collection);
+			int arrSize = 0;
+			arrSize = findSize(body_collection);
+	    	nameQuickSort(body_arr, 0 , arrSize-1);
+	    	printf("\n  %s  %d", body_arr[0].name, body_arr[0].id);
+	    	printf("\n  %s  %d", body_arr[1].name, body_arr[1].id);
+	    	printf("\n  %s  %d", body_arr[2].name, body_arr[2].id);
+			printf("\narray size %d", arrSize);	
+	    	fflush(stdin);
+	    	getchar();
 			break;
-		
+		case 'D':
+	    	fflush(stdin);
+			getchar();
+			break; 
 	}
 	
 
@@ -195,7 +211,7 @@ void mainMenu(){
                     deleteMenu(body_collection);
                     break;
                 case 's':
-                	searchMenu(body_collection);
+                	displayMenu(body_collection);
                     break;
                     
                 case 'q':
@@ -209,7 +225,6 @@ void mainMenu(){
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 
 

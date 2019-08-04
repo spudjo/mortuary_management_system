@@ -101,6 +101,33 @@ void idQuickSort(BodyPtr arr, int low, int high){
 }
 
 
+int namePartition(BodyPtr arr, int low, int high){
+	
+	int pivot = atoi(arr[high].name);
+	int i = low;
+	for (int j = low; j <= high-1; j++){
+		if(atoi(arr[j].name) <= pivot){
+			swap(&arr[i], &arr[j]);
+			i++;
+		}
+	}
+	
+	swap(&arr[i], &arr[high]);
+	
+	return i;
+}
+
+// array must have no gaps (convert hash table to array before adding)
+void nameQuickSort(BodyPtr arr, int low, int high){
+	
+	if (low < high){
+		//pi is partition index
+		int pi = namePartition(arr, low, high);
+		nameQuickSort(arr, low, pi-1);
+		nameQuickSort(arr, pi+1, high);
+	}
+}
+
 /*
 	int search(Body * ab[], int sin){
 	// if search returns -1 then index doesnt exist

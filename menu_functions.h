@@ -14,6 +14,7 @@
 #ifndef MENU_FUNCTIONS_H
 #define MENU_FUNCTIONS_H
 
+#include "menu_display.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -22,7 +23,6 @@
 #include <string.h>
 #include "data_structures.h"
 #include "fsort.h"
-#include "menu_display.h"
 
 /*
  * Deletes Body in collection based on ID provided
@@ -212,5 +212,3 @@ extern "C" {
 #endif
 
 #endif /* MENU_FUNCTIONS_H */
-
-    
