@@ -103,10 +103,10 @@ void idQuickSort(BodyPtr arr, int low, int high){
 
 int namePartition(BodyPtr arr, int low, int high){
 	
-	int pivot = atoi(arr[high].name);
+	int pivot = (int)arr[high].name[0];
 	int i = low;
 	for (int j = low; j <= high-1; j++){
-		if(atoi(arr[j].name) <= pivot){
+		if((int)arr[j].name <= pivot){
 			swap(&arr[i], &arr[j]);
 			i++;
 		}

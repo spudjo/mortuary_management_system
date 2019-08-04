@@ -119,7 +119,7 @@ void deleteMenu(BodyPtr body_collection){
 void displayMenu(BodyPtr body_collection){
 	
 	char select = "!";
-	while(select !="A" && select !="D" && select !="I"){
+	while(select !='A' && select != 'D' && select != 'I'){
 	stars(1);
     printf("\n***************************************************************************\n");
     printf("*                       D I S P L A Y   M E N U                            *");
@@ -138,6 +138,8 @@ void displayMenu(BodyPtr body_collection){
 	
 	switch(select){
 		case 'A':
+
+		case 'D':
 			;
 			BodyPtr body_arr = convert_to_body_array(body_collection);
 			int arrSize = 0;
@@ -150,10 +152,6 @@ void displayMenu(BodyPtr body_collection){
 	    	fflush(stdin);
 	    	getchar();
 			break;
-		case 'D':
-	    	fflush(stdin);
-			getchar();
-			break; 
 	}
 	
 
