@@ -106,9 +106,16 @@ int namePartition(BodyPtr arr, int low, int high){
 	int pivot = (int)arr[high].name[0];
 	int i = low;
 	for (int j = low; j <= high-1; j++){
-		if((int)arr[j].name <= pivot){
+		if((int)arr[j].name[0] < pivot){
 			swap(&arr[i], &arr[j]);
 			i++;
+		}
+		//if first letter is the same, check rest of the string
+		else if((int)arr[j].name[0] == pivot){
+			if(strcmp(arr[i].name,arr[high].name)<0){
+			swap(&arr[i], &arr[j]);
+			i++;
+			}
 		}
 	}
 	
@@ -125,6 +132,33 @@ void nameQuickSort(BodyPtr arr, int low, int high){
 		int pi = namePartition(arr, low, high);
 		nameQuickSort(arr, low, pi-1);
 		nameQuickSort(arr, pi+1, high);
+	}
+}
+
+int namePartitionReverse(BodyPtr arr, int low, int high){
+	
+	int pivot = (int)arr[low].name[0];
+	int i = low;
+	for (int j = low; j <= high-1; j++){
+		if((int)arr[j].name > pivot){
+			swap(&arr[i], &arr[j]);
+			i++;
+		}
+	}
+	
+	swap(&arr[i], &arr[low]);
+	
+	return i;
+}
+
+// array must have no gaps (convert hash table to array before adding)
+void nameQuickSortReverse(BodyPtr arr, int low, int high){
+	
+	if (low < high){
+		//pi is partition index
+		int pi = namePartitionReverse(arr, low, high);
+		nameQuickSortReverse(arr, low, pi-1);
+		nameQuickSortReverse(arr, pi+1, high);
 	}
 }
 
