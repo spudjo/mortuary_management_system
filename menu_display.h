@@ -11,6 +11,9 @@
  * Created on August 3, 2019, 2:31 PM
  */
 
+#ifndef MENU_DISPLAY_H
+#define MENU_DISPLAY_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -19,9 +22,6 @@
 #include <string.h>
 #include "data_structures.h"
 #include "fsort.h"
-
-#ifndef MENU_DISPLAY_H
-#define MENU_DISPLAY_H
 
 //
 // Prints out introduction //
@@ -98,12 +98,40 @@ void deleteMenu(BodyPtr body_collection){
         delete_body(body_collection);
 }
 
+void searchMenu(BodyPtr body_collection){
+	stars(1);
+    printf("\n***************************************************************************\n");
+    printf("*                         S E A R C H   M E N U                            *");
+    printf("\n***************************************************************************\n");
+	stars(1);
+	
+	printf("a : id ascending");
+	char select = getchar();
+	fflush(stdin);
+	switch(select){
+		case 'a':
+		;
+		BodyPtr body_arr = convert_to_body_array(body_collection);
+		int arrSize = 0;
+		arrSize = findSize(body_collection);
+    	idQuickSort(body_arr, 0 , arrSize-1);
+    	printf("\n  %s  %d", body_arr[0].name, body_arr[0].id);
+    	printf("\n  %s  %d", body_arr[1].name, body_arr[1].id);
+    	printf("\n  %s  %d", body_arr[2].name, body_arr[2].id);
+		printf("\narray size %d", arrSize);	
+    	fflush(stdin);
+    	getchar();
+			break;
+		
+	}
+	
+
+}
+
 // QUIT MENU
 void quit(){
 	printf("\n\nExiting application, have a beautiful day!\n");
         printf("(Press enter key to exit)");
-        getchar();
-        
 	exit(0);
 }
 
@@ -121,10 +149,13 @@ void mainMenu(){
         Body body_B = create_body("Steven Carino", 'M', 30, 1989, 11, 22, 99, 88.5, "Crushed by piano", body_collection);
         Body body_C = create_body("Casey Byrne", 'F', 26, 1992, 33, 44, 555, 666, "Misadventure", body_collection);
 
-        add_to_collection(body_collection, body_A);
-        add_to_collection(body_collection, body_B);
         add_to_collection(body_collection, body_C);
+
+        add_to_collection(body_collection, body_B);
+
+        add_to_collection(body_collection, body_A);
         // end create dummy data
+        
 	stars(2);
 	printf("Welcome to St.Anthony's Mortuary\n");
     stars(2);
@@ -152,12 +183,11 @@ void mainMenu(){
                     deleteMenu(body_collection);
                     break;
                 case 's':
-                        //search, right now it just displays all bodies
-                    print_body_collection(body_collection);
+                	searchMenu(body_collection);
                     break;
+                    
                 case 'q':
                     quit();
-                    return;
             }      
         }
 }

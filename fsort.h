@@ -11,8 +11,42 @@
 
 #include "data_structures.h"
 
+int findSize(BodyPtr body_collection){
+	int size = 0;
+	for(int i = 0; i < MAX_MORGUE_CAPACITY; i++){
+		 if (body_collection[i].name != NULL){
+		 	size++;
+    	}
+	}
+	return size;
+}
+
+BodyPtr convert_to_body_array(BodyPtr bodycollection){
+	
+	Stack bstack = (Stack) malloc (sizeof(StackType));
+	bstack->top = -1;
+	
+	for(int i = 0; i < MAX_MORGUE_CAPACITY; i++){
+		if(bodycollection[i].name != NULL){
+			
+			++(bstack->top);
+			bstack->ST[bstack->top]=bodycollection[i].id; 
+		}		
+	}
+	
+	BodyPtr body_indexes = (BodyPtr) calloc (bstack->top+1, sizeof(Body));
+	int index = 0;
+	while(bstack->top > -1){
+		body_indexes[index] = bodycollection[bstack->ST[bstack->top]];
+		index++;
+		--(bstack->top);
+	}
+	return body_indexes;
+}
+
 // swap function for all QSorts
 void swap(BodyPtr a, BodyPtr b){
+	
 	BodyPtr temp = (BodyPtr)malloc(sizeof(Body));
 	temp->id = a->id;
 	temp->name = a->name;

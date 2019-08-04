@@ -33,7 +33,7 @@ char* remove_newline(char *string)
 }
 
 //
-// DATA STRUCTURES: DATE, BODY
+// DATA STRUCTURES: DATE, BODY, STACK
 //
 
 typedef struct date
@@ -54,6 +54,13 @@ typedef struct body
     double height;
     char* cause_of_death; 
 }Body, *BodyPtr;
+
+typedef struct stack
+{
+int top; 
+int ST[1000]; 
+}StackType, *Stack;
+
 
 /*
  * ASCII hash code generation
@@ -121,7 +128,6 @@ Body create_body(char name[], char sex, int age,
                  BodyPtr body_collection)
 {       
     Body body;
-    body.id = generate_hash_code(body_collection, body); // sets id based on hash code 
     body.name = name;
     body.sex = sex;
     body.age = age;  
@@ -129,6 +135,7 @@ Body create_body(char name[], char sex, int age,
     body.weight = weight;
     body.height = height;
     body.cause_of_death = cause_of_death;
+    body.id = generate_hash_code(body_collection, body); // sets id based on hash code 
     return body;
 }
 
