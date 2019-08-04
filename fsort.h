@@ -135,32 +135,6 @@ void nameQuickSort(BodyPtr arr, int low, int high){
 	}
 }
 
-int namePartitionReverse(BodyPtr arr, int low, int high){
-	
-	int pivot = (int)arr[low].name[0];
-	int i = low;
-	for (int j = low; j <= high-1; j++){
-		if((int)arr[j].name > pivot){
-			swap(&arr[i], &arr[j]);
-			i++;
-		}
-	}
-	
-	swap(&arr[i], &arr[low]);
-	
-	return i;
-}
-
-// array must have no gaps (convert hash table to array before adding)
-void nameQuickSortReverse(BodyPtr arr, int low, int high){
-	
-	if (low < high){
-		//pi is partition index
-		int pi = namePartitionReverse(arr, low, high);
-		nameQuickSortReverse(arr, low, pi-1);
-		nameQuickSortReverse(arr, pi+1, high);
-	}
-}
 
 /*
 	int search(Body * ab[], int sin){

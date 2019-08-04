@@ -357,6 +357,19 @@ void print_body_collection(BodyPtr body_collection)
     }
 }
 
+void printSorted(BodyPtr body_collection, int size){
+	
+	for(int i = 0; i < size; i++){
+        print_body_info(body_collection[i]);
+	}
+}
+
+void printSortedR(BodyPtr body_collection, int size){
+	
+	for(int i = size-1; i >= 0; i--){
+        print_body_info(body_collection[i]);
+	}
+}
 
 #ifdef __cplusplus
 extern "C" {

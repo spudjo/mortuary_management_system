@@ -147,10 +147,7 @@ void displayMenu(BodyPtr body_collection){
 			body_arr = convert_to_body_array(body_collection);
 
 	    	nameQuickSort(body_arr, 0 , arrSize-1);
-	    	printf("\n  %s  %d", body_arr[0].name, body_arr[0].id);
-	    	printf("\n  %s  %d", body_arr[1].name, body_arr[1].id);
-	    	printf("\n  %s  %d", body_arr[2].name, body_arr[2].id);
-			printf("\narray size %d", arrSize);	
+	    	printSorted(body_arr, arrSize);
 	    	fflush(stdin);
 	    	getchar();
 			break;
@@ -158,13 +155,9 @@ void displayMenu(BodyPtr body_collection){
 		case 'D':
 			;
 			body_arr = convert_to_body_array(body_collection);
-			int arrSize = 0;
-			arrSize = findSize(body_collection);
-	    	nameQuickSortReverse(body_arr, 0 , arrSize-1);
-	    	printf("\n  %s  %d", body_arr[0].name, body_arr[0].id);
-	    	printf("\n  %s  %d", body_arr[1].name, body_arr[1].id);
-	    	printf("\n  %s  %d", body_arr[2].name, body_arr[2].id);
-			printf("\narray size %d", arrSize);	
+
+	    	nameQuickSort(body_arr, 0 , arrSize-1);
+	    	printSortedR(body_arr, arrSize);
 	    	fflush(stdin);
 	    	getchar();
 			break;
