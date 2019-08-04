@@ -17,5 +17,8 @@
 
 void main(int argc,int argv){
 
+        print_skull_bois();
 	mainMenu();
+        return (EXIT_SUCCESS);
+        
 }

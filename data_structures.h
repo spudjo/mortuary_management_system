@@ -55,16 +55,29 @@ typedef struct body
     char* cause_of_death; 
 }Body, *BodyPtr;
 
+//
+// Hash Storing: Hash_function, quadratic_probing
+//
+int generate_hash_code(BodyPtr body_collection, Body body)
+{
+    int hash_code = hash_function(body);
+//    printf("%s Hash: %d\n", body.name, hash_code);
+    hash_code = quadratic_probing(body_collection, hash_code);
+    return hash_code;
+}
+
 /*
  * ASCII hash code generation
  */
 int hash_function(Body body)
 {
-    int sum;
+    int sum = 0;
     char *string = body.name;
+//    printf("Hash Calculation %s Start:\n", string);
     while (*string != '\0')
     {
         sum += (int)*string;
+//        printf("Sum: %d Char: %c Value: %d\n", sum, *string, (int)*string);
         *string++;
     }
     return sum % MAX_MORGUE_CAPACITY;
@@ -77,23 +90,15 @@ int quadratic_probing(BodyPtr body_collection, int hash_code)
 {
     int counter = 1;
     int new_hash_code = hash_code;
+//    printf("Checking Hash %d\n", new_hash_code);
     while(body_collection[new_hash_code].name != NULL)
     {
+//        printf("Name: %s\n", body_collection[new_hash_code]);
 //        printf("Space taken, probing...\n");
         new_hash_code = (hash_code + counter * counter) % MAX_MORGUE_CAPACITY;
         counter++;
     }
     return new_hash_code;
-}
-
-//
-// Hash Storing: Hash_function, quadratic_probing
-//
-int generate_hash_code(BodyPtr body_collection, Body body)
-{
-    int hash_code = hash_function(body);
-    hash_code = quadratic_probing(body_collection, hash_code);
-    return hash_code;
 }
 
 //
@@ -121,7 +126,7 @@ Body create_body(char name[], char sex, int age,
                  BodyPtr body_collection)
 {       
     Body body;
-    body.id = generate_hash_code(body_collection, body); // sets id based on hash code 
+//    body.id = id;
     body.name = name;
     body.sex = sex;
     body.age = age;  
@@ -129,6 +134,7 @@ Body create_body(char name[], char sex, int age,
     body.weight = weight;
     body.height = height;
     body.cause_of_death = cause_of_death;
+    body.id = generate_hash_code(body_collection, body); // sets id based on hash code 
     return body;
 }
 
@@ -242,7 +248,7 @@ Body set_body_date_of_death(Body body)
 Body set_body_weight(Body body)
 {
     fflush(stdin);
-    printf("Enter Weight: ");
+    printf("Enter Weight (KG): ");
     double weight;
     scanf("%lf", &weight);
     getchar();
@@ -258,7 +264,7 @@ Body set_body_weight(Body body)
 Body set_body_height(Body body)
 {
     fflush(stdin);
-    printf("Enter Height: ");
+    printf("Enter Height (CM): ");
     double height;
     scanf("%lf", &height);
     getchar(); 
@@ -294,7 +300,7 @@ int validate_existing_id(BodyPtr body_collection, int id)
 {
     if (body_collection[id].name != NULL)
     {
-        // id exists
+        // id already exists
         return 1;
     }
     return 0;
@@ -303,6 +309,8 @@ int validate_existing_id(BodyPtr body_collection, int id)
 //
 // Print functions
 //
+
+
 /*
  * Prints Date field values to standard output
  */
@@ -333,6 +341,7 @@ void print_body_collection(BodyPtr body_collection)
     printf("\n***************************************************************************\n");
     printf("*                      B O D Y   C O L L E C T I O N                      *");
     printf("\n***************************************************************************\n");
+    printf("************************************* *************************************\n");
     for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
     {
         if (body_collection[i].name != NULL)
