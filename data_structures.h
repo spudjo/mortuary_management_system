@@ -55,16 +55,6 @@ typedef struct body
     char* cause_of_death; 
 }Body, *BodyPtr;
 
-//
-// Hash Storing: Hash_function, quadratic_probing
-//
-int generate_hash_code(BodyPtr body_collection, Body body)
-{
-    int hash_code = hash_function(body);
-    hash_code = quadratic_probing(body_collection, hash_code);
-    return hash_code;
-}
-
 /*
  * ASCII hash code generation
  */
@@ -97,6 +87,16 @@ int quadratic_probing(BodyPtr body_collection, int hash_code)
 }
 
 //
+// Hash Storing: Hash_function, quadratic_probing
+//
+int generate_hash_code(BodyPtr body_collection, Body body)
+{
+    int hash_code = hash_function(body);
+    hash_code = quadratic_probing(body_collection, hash_code);
+    return hash_code;
+}
+
+//
 // Body Functions
 //
 
@@ -121,7 +121,7 @@ Body create_body(char name[], char sex, int age,
                  BodyPtr body_collection)
 {       
     Body body;
-//    body.id = id;
+    body.id = generate_hash_code(body_collection, body); // sets id based on hash code 
     body.name = name;
     body.sex = sex;
     body.age = age;  
@@ -129,7 +129,6 @@ Body create_body(char name[], char sex, int age,
     body.weight = weight;
     body.height = height;
     body.cause_of_death = cause_of_death;
-    body.id = generate_hash_code(body_collection, body); // sets id based on hash code 
     return body;
 }
 
@@ -290,47 +289,20 @@ Body set_body_cause_of_death(Body body)
 
 /*
  * Checks if id exists in collection, if so, returns 1, else 0
- * Essential a linear seach function
- * TODO:
- * Linear is too simple, needs to change to be more complex
  */
 int validate_existing_id(BodyPtr body_collection, int id)
 {
-    for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
+    if (body_collection[id].name != NULL)
     {
-<<<<<<< Updated upstream
-        if (body_collection[i].id == id)
-        {
-//            printf("\nFound\n");
-//            printf("Returning...");
-            return 1; // id exists
-        }
-    }
-    return 0; // id does not exist
-=======
-        // valid id
+        // id exists
         return 1;
     }
     return 0;
-//        
-//    for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
-//    {
-//        if (body_collection[i].id == id)
-//        {
-////            printf("\nFound\n");
-////            printf("Returning...");
-//            return 1; // id exists
-//        }
-//    }
-//    return 0; // id does not exist
->>>>>>> Stashed changes
 }
 
 //
 // Print functions
 //
-
-
 /*
  * Prints Date field values to standard output
  */

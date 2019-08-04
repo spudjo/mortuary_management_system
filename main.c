@@ -16,11 +16,6 @@
 // Shawn: Data Structure, Add, Update, Display All Records
 
 void main(int argc,int argv){
-<<<<<<< Updated upstream
-=======
-        print_skull_bois();
->>>>>>> Stashed changes
+
 	mainMenu();
-        return (EXIT_SUCCESS);
-        
 }

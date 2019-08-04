@@ -43,8 +43,6 @@ void print_introduction()
     printf("***************************************************************************\n");
 }
 
-<<<<<<< Updated upstream
-=======
 void print_skull_bois()
 {
     printf("***************************************************************************\n");                
@@ -65,7 +63,6 @@ void print_skull_bois()
     printf("***************************************************************************\n");
 }
 
->>>>>>> Stashed changes
 //
 // Design templates //
 // 
@@ -120,28 +117,18 @@ void mainMenu(){
         // after this, program will read from a file and create bodies
         
         // start creating dummy data
-<<<<<<< Updated upstream
-        Body body_A = create_body(5, "Shawn Pudjowargono", 'M', 27, 1991, 9, 5, 111, 222, "Elephant stampede");
-        Body body_B = create_body(8, "Steven Carino", 'M', 30, 1989, 11, 22, 99, 88.5, "Crushed by piano");
-        Body body_C = create_body(4, "Casey Byrne", 'F', 26, 1992, 33, 44, 555, 666, "Misadventure");
-=======
         Body body_A = create_body("Shawn Pudjowargono", 'M', 27, 1991, 9, 5, 111, 222, "Elephant stampede", body_collection);
         Body body_B = create_body("Steven Carino", 'M', 30, 1989, 11, 22, 99, 88.5, "Crushed by piano", body_collection);
         Body body_C = create_body("Casey Byrne", 'F', 26, 1992, 33, 44, 555, 666, "Misadventure", body_collection);
->>>>>>> Stashed changes
+
         add_to_collection(body_collection, body_A);
         add_to_collection(body_collection, body_B);
         add_to_collection(body_collection, body_C);
         // end create dummy data
-	
-<<<<<<< Updated upstream
 	stars(2);
 	printf("Welcome to St.Anthony's Mortuary\n");
-        
-=======
-	stars(1);
-//	printf("Welcome to St.Anthony's Mortuary\n");
->>>>>>> Stashed changes
+    stars(2);
+    
         while (1)
         {
             printf("\n***************************************************************************\n");
