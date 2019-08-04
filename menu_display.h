@@ -202,7 +202,8 @@ void mainMenu(){
             printf("\n***************************************************************************\n");
             stars(1);
             printf("Options:\n");
-            printf("Add record: a  Edit record: e  Delete record: d  Search records: s  Quit: q\n");
+            printf("Add record: a  Edit record: e  Delete record: d  Search records: s  Display records: i\n");
+			printf("Quit: q\n");
             printf("Selection: ");
             select = getchar();
             getchar();
@@ -217,7 +218,7 @@ void mainMenu(){
                 case 'd':
                     deleteMenu(body_collection);
                     break;
-                case 's':
+                case 'i':
                 	displayMenu(body_collection);
                     break;
                     
