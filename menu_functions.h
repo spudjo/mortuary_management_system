@@ -83,14 +83,41 @@ void update_body(BodyPtr body_collection)
     printf("\n***************************************************************************\n");
     printf("*                            E D I T   M E N U                            *\n");
     stars(1);
-    printf("Enter ID of body to update: ");
+
+    // Takes in user input as a string then validates two things
+    // 1) Checks that it is an interger (no letters)
+    // 2) Checks that it is within the range of 0 and MAX_MORGUE_CAPACITY - 1
+    // If either of these two conditions fail, program will loop until valid
+    // input is given
+    fflush(stdin);
+    char *id_string = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    int valid_entry;
+    while (1)
+    {
+        valid_entry = 1;
+        printf("Enter ID of body to update (0-999): ");  
+        fgets(id_string, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        id_string = remove_newline(id_string);
+        
+        valid_entry = is_valid_int(id_string, 0, 999);
+        
+        if (valid_entry == 0)
+        {
+            printf("Invalid Entry\n"); 
+        }
+        else
+        {
+            break;
+        }
+    }
+    // End of input check
+    
     int id;
     Body temp_body;
-    char select;
-    scanf("%d", &id);
-    getchar();
-    printf("\n");
-    
+    char *select = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));;
+    id = atoi(id_string);
+
     // checks if ID exists in collection
     int id_exists = validate_existing_id(body_collection, id);
     if (id_exists == 0)
@@ -98,11 +125,10 @@ void update_body(BodyPtr body_collection)
         printf("Record not found!\n");
         return;
     }
-    
     temp_body = body_collection[id];
     // end
     
-    while (select != 'q' && select != 'x')
+    while (select[0] != 'q' && select[0] != 'x')
     {      
         printf("Editing the following record:\n");        
         printf("");
@@ -114,11 +140,11 @@ void update_body(BodyPtr body_collection)
         printf("Quit and Save : q              Quit without Saving: x\n");
         printf("Selection: ");
  
-        select = getchar();
-        getchar();
-        printf("\n");
+        fgets(select, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        select = remove_newline(select);
         
-        switch(select){
+        switch(select[0]){
             case 'n':
                 temp_body = set_body_name(temp_body);
                 break;
@@ -143,7 +169,7 @@ void update_body(BodyPtr body_collection)
 	}
     }  
     
-    if (select == 'q')
+    if (select[0] == 'q')
     {
        body_collection[id] = temp_body; 
        printf("Record updated!\n");

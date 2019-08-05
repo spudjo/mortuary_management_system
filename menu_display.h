@@ -203,6 +203,9 @@ void displayMenu(BodyPtr body_collection){
             printSortedR(body_arr, arrSize);
             fflush(stdin);
             getchar();
+                    break;
+            case 'r':
+                return;
     }
 	
 

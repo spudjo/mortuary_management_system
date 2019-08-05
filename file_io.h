@@ -113,7 +113,7 @@ void saveToFile(BodyPtr bodiesArray){
     {
         if (bodiesArray[i].name != NULL)
         {
-            print_body_info(bodiesArray[i]);
+//            print_body_info(bodiesArray[i]);
             fprintf(output, "%s,", bodiesArray[i].name);
             fprintf(output, "%c,", bodiesArray[i].sex);
             fprintf(output, "%d,", bodiesArray[i].age);

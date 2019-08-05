@@ -31,6 +31,87 @@ char* remove_newline(char *string)
     return string;
 }
 
+/*
+ * Takes in a char* and checks that consists of only numbers within a certain 
+ * range
+ * max  = max acceptable number
+ * min  = min acceptable number
+ * Returns 1 if valid number, else returns 0
+ */
+int is_valid_int(char *string, int min, int max)
+{
+    int valid_num = 1;
+
+    // iterates through each character until finding a '\0' and checks 
+    // that each character is a number, else sets valid_age to 0 and breaks
+    for (int i = 0; i < MAX_STRING_CAPACITY && string[i] != '\0'; i++)
+    {
+        if (!isdigit(string[i]))
+        {
+            valid_num = 0;
+            break;
+        }
+    }
+    
+    // checks for valid range of number
+    if (valid_num == 1)
+    {
+        if (atoi(string) < min || atoi(string) > max)
+        {
+            valid_num = 0;
+        }
+    }
+    
+    return valid_num;
+}
+
+/*
+ * Takes in a char* and checks that consists of only numbers within a certain 
+ * range, takiing into account a single decimal point
+ * max  = max acceptable number
+ * min  = min acceptable number
+ * Returns 1 if valid number, else returns 0
+ */
+int is_valid_decimal(char *string, float min, float max)
+{
+    int valid_num = 1;
+    int number_of_decimals = 0;
+
+    // iterates through each character until finding a '\0' and checks 
+    // that each character is a number, else sets valid_age to 0 and breaks
+    for (int i = 0; i < MAX_STRING_CAPACITY && string[i] != '\0'; i++)
+    {
+        if (!isdigit(string[i]))
+        {
+            if (string[i] != '.') 
+            {
+                valid_num = 0;
+                break;
+            }
+            else
+            {
+                number_of_decimals++;
+                if (number_of_decimals > 1)
+                {
+                    valid_num = 0;
+                    break;
+                }
+            }
+        }
+    }
+        
+    // checks for valid range of number
+    if (valid_num == 1)
+    {
+        if (atoi(string) < min || atoi(string) > max)
+        {
+            valid_num = 0;
+        }
+    }
+    
+    return valid_num;
+}
+
 //
 // DATA STRUCTURES: DATE, BODY
 //
@@ -178,8 +259,6 @@ void add_to_collection(BodyPtr body_collection, Body body)
 
 /*
  * Sets value of name field in Body then returns
- * TODO:
- * Exception handling
  */
 Body set_body_name(Body body)
 {
@@ -197,87 +276,177 @@ Body set_body_name(Body body)
 
 /*
  * Sets value of sex field in Body then returns
- * TODO:
- * Exception handling
  */
 Body set_body_sex(Body body)
 {
     fflush(stdin);
-    printf("Enter Sex: ");
-    char sex = getchar();
-    getchar();
-    body.sex = sex;
+    char *sex = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    while (1)
+    {
+        printf("Enter Sex (m/f): ");  
+        fgets(sex, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        // check for valid character
+        if (sex[0] != 'm' && 
+           sex[0] != 'M' && 
+           sex[0] != 'f' && 
+           sex[0] != 'F')
+        {
+            printf("Invalid Entry\n"); 
+        }
+        else
+        {
+            break;
+        }
+    }
+    // convert to upper then set sex field
+    body.sex =  toupper(sex[0]);
     return body;
 }
 
 /*
  * Sets value of age field in Body then returns
- * TODO:
- * Exception handling
  */
 Body set_body_age(Body body)
 {
     fflush(stdin);
-    printf("Enter Age: ");   
-    int age;
-    scanf("%d", &age);
-    getchar();
-    body.age = age;
+    char *age = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    int valid_entry;
+    while (1)
+    {
+        valid_entry = 1;
+        printf("Enter Age: ");  
+        fgets(age, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        age = remove_newline(age);
+        
+        valid_entry = is_valid_int(age, 1, 150);
+        
+        if (valid_entry == 0)
+        {
+            printf("Invalid Entry\n"); 
+        }
+        else
+        {
+            break;
+        }
+    }
+    body.age = atoi(age);
     return body;
 }
 
 /*
  * Sets value of date_of_death field in Body then returns
- * TODO:
- * Exception handling
  */
 Body set_body_date_of_death(Body body)
 {
-    fflush(stdin);
-    printf("Enter Date of Death (Format: YYYY MM DD): ");
-    int year, month, day;
-    scanf("%d %d %d", &year, &month, &day);
-    getchar();
+//    fflush(stdin);
+//    printf("Enter Date of Death (Format: YYYY MM DD): ");
+//    int year, month, day;
+//    scanf("%d %d %d", &year, &month, &day);
+//    getchar();
+    printf("Enter Date of Death:\n");
+    int year = get_date("Year: ", 2000, 2100);
+    int month = get_date("Month: ", 1, 12);
+    int day = get_date("Day: ", 1, 31);
     body.date_of_death = create_date(year, month, day); 
     return body;
 }
 
 /*
+ * Used to get valid year, month and day in set_body_date_of_death
+ */
+int get_date(char* prompt, int min, int max)
+{
+    fflush(stdin);
+    char *date = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    int valid_entry;
+    while (1)
+    {
+        valid_entry = 1;
+        printf("%s", prompt);  
+        fgets(date, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        date = remove_newline(date);
+        
+        valid_entry = is_valid_int(date, min, max);
+        
+        if (valid_entry == 0)
+        {
+            printf("Invalid Entry\n"); 
+        }
+        else
+        {
+            break;
+        }
+    }
+    return atoi(date);
+}
+
+/*
  * Sets value of weight field in Body then returns
- * TODO:
- * Exception handling
  */
 Body set_body_weight(Body body)
 {
     fflush(stdin);
-    printf("Enter Weight (KG): ");
-    double weight;
-    scanf("%lf", &weight);
-    getchar();
-    body.weight = weight;
+    char *weight = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    int valid_entry;
+    while (1)
+    {
+        valid_entry = 1;
+        printf("Enter Weight(KG): ");  
+        fgets(weight, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        weight = remove_newline(weight);
+        
+        valid_entry = is_valid_decimal(weight, 0.01, 650);
+        
+        if (valid_entry == 0)
+        {
+            printf("Invalid Entry\n"); 
+        }
+        else
+        {
+            break;
+        }
+    }
+    body.weight = atof(weight);
     return body;
 }
 
 /*
  * Sets value of height field in Body then returns
- * TODO:
- * Exception handling
  */
 Body set_body_height(Body body)
 {
-    fflush(stdin);
-    printf("Enter Height (CM): ");
-    double height;
-    scanf("%lf", &height);
-    getchar(); 
-    body.height = height;
+fflush(stdin);
+    char *height = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    int valid_entry;
+    while (1)
+    {
+        valid_entry = 1;
+        printf("Enter Height(CM): ");  
+        fgets(height, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        height = remove_newline(height);
+        
+        valid_entry = is_valid_decimal(height, 0.01, 300);
+        
+        if (valid_entry == 0)
+        {
+            printf("Invalid Entry\n"); 
+        }
+        else
+        {
+            break;
+        }
+    }
+    body.height = atof(height);
     return body;
 }
 
 /*
  * Sets value of case_of_death field in Body then returns
- * TODO:
- * Exception handling
  */
 Body set_body_cause_of_death(Body body)
 {
