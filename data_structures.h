@@ -20,8 +20,7 @@ const int MAX_STRING_CAPACITY = 100;
  */
 char* remove_newline(char *string)
 {
-    int x;
-    for(x = 0; x < MAX_STRING_CAPACITY; x++)
+    for(int x = 0; x < MAX_STRING_CAPACITY; x++)
     {
         if( string[x] == '\n')
         {
@@ -33,7 +32,7 @@ char* remove_newline(char *string)
 }
 
 //
-// DATA STRUCTURES: DATE, BODY, STACK
+// DATA STRUCTURES: DATE, BODY
 //
 
 typedef struct date
@@ -61,6 +60,16 @@ int top;
 int ST[1000]; 
 }StackType, *Stack;
 
+/*
+ *Hash Storing: Hash_function, quadratic_probing
+ */
+int generate_hash_code(BodyPtr body_collection, Body body)
+{
+    int hash_code = hash_function(body);
+//    printf("%s Hash: %d\n", body.name, hash_code);
+    hash_code = quadratic_probing(body_collection, hash_code);
+    return hash_code;
+}
 
 /*
  * ASCII hash code generation
@@ -95,17 +104,6 @@ int quadratic_probing(BodyPtr body_collection, int hash_code)
         counter++;
     }
     return new_hash_code;
-}
-
-//
-// Hash Storing: Hash_function, quadratic_probing
-//
-int generate_hash_code(BodyPtr body_collection, Body body)
-{
-    int hash_code = hash_function(body);
-//    printf("%s Hash: %d\n", body.name, hash_code);
-    hash_code = quadratic_probing(body_collection, hash_code);
-    return hash_code;
 }
 
 //
@@ -145,15 +143,15 @@ Body create_body(char name[], char sex, int age,
 }
 
 /*
- * Creates and returns an empty Body with only ID set
+ * Creates and returns an empty Body
  */
 Body create_body_empty()
 {
     Body body;
-    body.id = 0;
+    body.id = -1;
     body.age = 0;
     body.sex = 'X';
-    body.date_of_death = create_date(1234, 56, 78); 
+    body.date_of_death = create_date(0, 0, 0); 
     body.weight = 0;
     body.height = 0;
     body.name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
@@ -171,9 +169,7 @@ BodyPtr create_body_collection(int size)
 }
 
 /*
- * Hash function
- * Generates a hash code with polynomial hash generation
- * Collisions are handled via Quadratic probing
+ * Adds body to body_collection based on id set through hash function
  */
 void add_to_collection(BodyPtr body_collection, Body body)
 {
@@ -307,6 +303,7 @@ int validate_existing_id(BodyPtr body_collection, int id)
     if (body_collection[id].name != NULL)
     {
         // id already exists
+//        printf("Id Exists");
         return 1;
     }
     return 0;
@@ -370,6 +367,7 @@ void printSortedR(BodyPtr body_collection, int size){
         print_body_info(body_collection[i]);
 	}
 }
+
 
 #ifdef __cplusplus
 extern "C" {

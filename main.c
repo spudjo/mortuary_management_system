@@ -16,7 +16,10 @@
 // Shawn: Data Structure, Add, Update, Display All Records
 
 void main(int argc,int argv){
-    print_skull_bois();
+        print_random_image();
+        Sleep(3000);
+        print_introduction();
 	mainMenu();
-	
+        return (EXIT_SUCCESS);
+        
 }

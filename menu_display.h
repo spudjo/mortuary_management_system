@@ -14,17 +14,16 @@
 #ifndef MENU_DISPLAY_H
 #define MENU_DISPLAY_H
 
-
-#include "menu_functions.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
 #include <time.h>
 #include <windows.h>
 #include <string.h>
 #include "data_structures.h"
+#include "menu_functions.h"
 #include "fsort.h"
+#include "file_io.h"
 
 //
 // Prints out introduction //
@@ -46,6 +45,24 @@ void print_introduction()
     printf("***************************************************************************\n");
 }
 
+void print_random_image()
+{
+    srand(time(NULL));
+//    int random_number = (rand() % (upper - lower + 1)) + lower;
+    int random_number = (rand() % (1 - 0 + 1)) + 0;
+    
+    switch(random_number){
+        case 0:
+            print_skull_bois();
+            break;
+        case 1:
+            print_floaty_bois();
+            break;
+     }
+    
+    
+}
+
 void print_skull_bois()
 {
     printf("***************************************************************************\n");                
@@ -63,6 +80,28 @@ void print_skull_bois()
     printf("*        //            ()  (d'b)  ()     \\\\    ||       //\\\\||  ==== ()   *\n");      
     printf("*       '/              \\`  '-'  `/       \\'   '|      /`  \\\\|  =\"=  `|   *\n");               
     printf("*       \"==            /|\\       /\\\\    ==\"     \"==  ==\"    `(OwO)    '-- *\n");
+    printf("***************************************************************************\n");
+}
+
+void print_floaty_bois()
+{
+    printf("***************************************************************************\n"); 
+    printf("*               (                                (                        *\n"); 
+    printf("*                )           )        (                   )               *\n"); 
+    printf("*              (                       )      )           .---.           *\n"); 
+    printf("*          )              (     .-\"\"-.       (        (  /     \\          *\n"); 
+    printf("*         ( .-\"\"-.  (      )   / _  _ \\        )      )  |() ()|          *\n"); 
+    printf("*          / _  _ \\   )        |(_\\/_)|  .---.   (       (_ 0 _)          *\n"); 
+    printf("*          |(_)(_)|  ( .---.   (_ /\\ _) /     \\   .-\"\"-.  |xxx|           *\n"); 
+    printf("*          (_ /\\ _)   /     \\   |v==v|  |<\\ />|  / _  _ \\ '---'           *\n"); 
+    printf("*           |wwww|    |(\\ /)|(  '-..-'  (_ A _)  |/_)(_\\|                 *\n"); 
+    printf("*           '-..-'    (_ o _)  )  .---.  |===|   (_ /\\ _)                 *\n"); 
+    printf("*                      |===|  (  /     \\ '---'    |mmmm|                  *\n"); 
+    printf("*                      '---'     |{\\ /}|          '-..-'                  *\n"); 
+    printf("*                                (_ V _)                  Kimberley Byrne *\n"); 
+    printf("*                                 |\"\"\"|                     Steven Carino *\n"); 
+    printf("*                                 '---'                Shawn Pudjowargono *\n"); 
+    printf("*                                                                         *\n");
     printf("***************************************************************************\n");
 }
 
@@ -116,71 +155,76 @@ void deleteMenu(BodyPtr body_collection){
     delete_body(body_collection);
 }
 
+void searchMenu(BodyPtr body_collection)
+{
+    search_body(body_collection);
+}
+
 void displayMenu(BodyPtr body_collection){
 	
-	char select = "!";
-	while(select !='A' && select != 'D' && select != 'I'){
-	stars(1);
+    char select = "!";
+    while(select !='A' && select != 'D' && select != 'I'){
     printf("\n***************************************************************************\n");
-    printf("*                       D I S P L A Y   M E N U                            *");
-    printf("\n***************************************************************************\n");
-	stars(1);
-	
-	printf("\nOPTIONS:");
-	stars(1);
-	printf("\nALPHABETICAL: asc: A desc: D");
-	
-	printf("\nID SEARCH: asc: A desc: D");
-	
-	select = getchar();
-	}
-	fflush(stdin);
-	
-	//Aloccate our array with the number of records we have
-	int arrSize = 0;
-	arrSize = findSize(body_collection);
-	BodyPtr body_arr = (BodyPtr)calloc(arrSize, sizeof(Body));
-	
-	switch(select){
-		case 'A':
-			;
-			body_arr = convert_to_body_array(body_collection);
+    printf("*                       D I S P L A Y   M E N U                            *\n");
+    stars(1);
+    printf("*  ALPHABETICAL: asc: A desc: D                                           *\n");
+    printf("*  Return: r                                                              *\n");
+    stars(1);
+    printf("Selection: ");
 
-	    	nameQuickSort(body_arr, 0 , arrSize-1);
-	    	printSorted(body_arr, arrSize);
-	    	fflush(stdin);
-	    	getchar();
-			break;
+//    printf("\nID SEARCH: asc: A desc: D");
 
-		case 'D':
-			;
-			body_arr = convert_to_body_array(body_collection);
+    select = getchar();
+    printf("\n");
+    }
+    fflush(stdin);
 
-	    	nameQuickSort(body_arr, 0 , arrSize-1);
-	    	printSortedR(body_arr, arrSize);
-	    	fflush(stdin);
-	    	getchar();
-			break;
-	}
+    //Aloccate our array with the number of records we have
+    int arrSize = 0;
+    arrSize = findSize(body_collection);
+    BodyPtr body_arr = (BodyPtr)calloc(arrSize, sizeof(Body));
+
+    switch(select){
+            case 'A':
+                    ;
+                    body_arr = convert_to_body_array(body_collection);
+
+            nameQuickSort(body_arr, 0 , arrSize-1);
+            printSorted(body_arr, arrSize);
+            fflush(stdin);
+            getchar();
+                    break;
+
+            case 'D':
+                    ;
+                    body_arr = convert_to_body_array(body_collection);
+
+            nameQuickSort(body_arr, 0 , arrSize-1);
+            printSortedR(body_arr, arrSize);
+            fflush(stdin);
+            getchar();
+    }
 	
 
 }
 
 // QUIT MENU
-void quit(){
-	printf("\nExiting application, have a beautiful day!\n");
-        printf("(Press enter key to exit)");
-	exit(0);
+void quit(BodyPtr body_collection){
+    saveToFile(body_collection);    // save to file
+    printf("\nExiting application, have a beautiful day!\n");
+    printf("(Press enter key to exit)");
+    getchar();
+    exit(0);
 }
+
 
 // MAIN MENU
 void mainMenu(){
-        print_introduction();
 	char select = 'a';
-        
+
         // create body_collection
         BodyPtr body_collection = create_body_collection(MAX_MORGUE_CAPACITY);
-        // after this, program will read from a file and create bodies
+//        body_collection = readFromFile(body_collection);
         
         // start creating dummy data
         Body body_A = create_body("Shawn Pudjowargono", 'M', 27, 1991, 9, 5, 111, 222, "Elephant stampede", body_collection);
@@ -190,20 +234,18 @@ void mainMenu(){
         add_to_collection(body_collection, body_B);
         add_to_collection(body_collection, body_C);
         // end create dummy data
-        
+            
 	stars(2);
-	printf("Welcome to St.Anthony's Mortuary\n");
-    stars(2);
-    
+        printf("*                     Welcome to St.Anthony's Mortuary                    *\n");
+        stars(2);
         while (1)
         {
             printf("\n***************************************************************************\n");
-            printf("*                            M A I N   M E N U                            *");
-            printf("\n***************************************************************************\n");
+            printf("*                            M A I N   M E N U                            *\n");
             stars(1);
-            printf("Options:\n");
-            printf("Add record: a  Edit record: e  Delete record: d  Search records: s  Display records: i\n");
-			printf("Quit: q\n");
+            printf("*  Add record: a             Edit record: e             Delete record: d  *\n");
+            printf("*  Search records: s         Display records: i         Quit: q           *\n");
+            stars(1);
             printf("Selection: ");
             select = getchar();
             getchar();
@@ -218,12 +260,14 @@ void mainMenu(){
                 case 'd':
                     deleteMenu(body_collection);
                     break;
-                case 'i':
-                	displayMenu(body_collection);
+                case 's':
+                    searchMenu(body_collection);
                     break;
-                    
+                case 'i':
+                    displayMenu(body_collection);
+                    break;
                 case 'q':
-                    quit();
+                    quit(body_collection);
             }      
         }
 }
@@ -233,6 +277,7 @@ void mainMenu(){
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 
 

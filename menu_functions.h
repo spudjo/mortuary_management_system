@@ -14,7 +14,6 @@
 #ifndef MENU_FUNCTIONS_H
 #define MENU_FUNCTIONS_H
 
-#include "menu_display.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -23,6 +22,7 @@
 #include <string.h>
 #include "data_structures.h"
 #include "fsort.h"
+#include "menu_display.h"
 
 /*
  * Deletes Body in collection based on ID provided
@@ -81,8 +81,7 @@ void delete_body(BodyPtr body_collection)
 void update_body(BodyPtr body_collection)
 {
     printf("\n***************************************************************************\n");
-    printf("*                          E D I T - R E C O R D                          *");
-    printf("\n***************************************************************************\n");
+    printf("*                            E D I T   M E N U                            *\n");
     stars(1);
     printf("Enter ID of body to update: ");
     int id;
@@ -161,8 +160,7 @@ void update_body(BodyPtr body_collection)
 void add_body(BodyPtr body_collection)
 {
     printf("\n***************************************************************************\n");
-    printf("*                           A D D - R E C O R D                           *");
-    printf("\n***************************************************************************\n");
+    printf("*                              A D D   M E N U                            *\n");
     stars(1);
     
     Body body = create_body_empty();
@@ -200,6 +198,56 @@ void add_body(BodyPtr body_collection)
     } 
 }
 
+
+void search_body(BodyPtr body_collection)
+{
+    char select;
+    while(select != 'r')
+    {
+        printf("\n***************************************************************************\n");
+        printf("*                        S E A R C H   M E N U                            *\n");
+        stars(1);
+        printf("*  Search by ID: i           Search by name: n           Search by: ?     *\n");
+        printf("*  Return: r                                                              *\n");
+        stars(1);
+        printf("Selection: ");
+        
+        select = getchar();
+        getchar();
+        
+        switch(select){
+            case 'i':
+                search_by_id(body_collection);
+                break;
+            case 'n':
+                break;
+            case 'r':
+                return;
+        }
+    }
+}
+
+void search_by_id(BodyPtr body_collection)
+{
+    int id;
+    int valid_id;
+    printf("\nEnter ID: ");
+    scanf("%d", &id);
+    getchar();
+    valid_id = validate_existing_id(body_collection, id);
+
+    if (valid_id == 1)
+    {
+        printf("\nRecord found!\n");
+        print_body_info(body_collection[id]);
+    }
+    else
+    {
+        printf("\nNo matching record found!\n");
+    }
+}
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -212,3 +260,5 @@ extern "C" {
 #endif
 
 #endif /* MENU_FUNCTIONS_H */
+
+    
