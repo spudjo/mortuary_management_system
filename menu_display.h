@@ -185,27 +185,27 @@ void displayMenu(BodyPtr body_collection){
     BodyPtr body_arr = (BodyPtr)calloc(arrSize, sizeof(Body));
 
     switch(select){
-            case 'A':
-                    ;
-                    body_arr = convert_to_body_array(body_collection);
+        case 'A':
+            ;
+            body_arr = convert_to_body_array(body_collection);
 
-            nameQuickSort(body_arr, 0 , arrSize-1);
-            printSorted(body_arr, arrSize);
-            fflush(stdin);
-            getchar();
-                    break;
+	        nameQuickSort(body_arr, 0 , arrSize-1);
+	        printSorted(body_arr, arrSize);
+	        fflush(stdin);
+	        getchar();
+	        break;
 
-            case 'D':
-                    ;
-                    body_arr = convert_to_body_array(body_collection);
-
-            nameQuickSort(body_arr, 0 , arrSize-1);
-            printSortedR(body_arr, arrSize);
-            fflush(stdin);
-            getchar();
-                    break;
-            case 'r':
-                return;
+        case 'D':
+            ;
+            body_arr = convert_to_body_array(body_collection);
+		
+		    nameQuickSort(body_arr, 0 , arrSize-1);
+		    printSortedR(body_arr, arrSize);
+		    fflush(stdin);
+		    getchar();
+		    break;
+        case 'r':
+            return;
     }
 	
 
