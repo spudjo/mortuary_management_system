@@ -15,12 +15,12 @@
 // Casey: File I/O, Delete
 // Shawn: Data Structure, Add, Update, Display All Records
 
-void main(int argc,int argv){
-
+void main(int argc,int argv)
+{
+        print_random_image();
+        Sleep(1000);
+        print_introduction();
 	mainMenu();
-	
+        return (EXIT_SUCCESS);
+        
 }
-
-
-
-

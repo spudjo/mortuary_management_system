@@ -1,0 +1,3 @@
+JoeMitchell,M,22,2019,8,1,100.23,180,poisoned
+BobFranks,M,79,2019,8,1,90,170.33,oldage
+BerylQueen,F,88,2019,8,1,72.5,130,kidneyfailure

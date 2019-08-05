@@ -22,17 +22,17 @@
 #include <string.h>
 #include "data_structures.h"
 #include "fsort.h"
+#include "menu_display.h"
 
 /*
  * Deletes Body in collection based on ID provided
- * TODO:
- * Still needs work
  */
 void delete_body(BodyPtr body_collection)
 {
-    printf("\n=================================================================\n");
-    printf("=                   D E L E T E - R E C O R D                   =");
-    printf("\n=================================================================\n");
+    printf("\n***************************************************************************\n");
+    printf("*                        D E L E T E - R E C O R D                        *");
+    printf("\n***************************************************************************\n");
+    stars(1);
     printf("Enter ID of body to delete: ");
     int id;
     Body temp_body;
@@ -43,21 +43,34 @@ void delete_body(BodyPtr body_collection)
     int id_exists = validate_existing_id(body_collection, id);
     if (id_exists == 0)
     {
-        printf("No record with ID of %04d", id);
+        printf("\nRecord not found!\n");
         return;
     }
     
-    printf("Delete the following record?\n");
+    printf("\nDelete the following record?\n");
     print_body_info(body_collection[id]);
-    printf("\nOptions: Y / N");
     
-    select = getchar();
-    getchar();
-    
-    if (select == 'Y' || select == 'y')
+    while (select != 'Y' && select != 'y' && select != 'N' && select != 'n')
     {
-        body_collection[id] = create_body_empty(id);
+        printf("\nOptions: Y / N\n");
+        printf("Selection: ");
+        select = getchar();
+        getchar();
+
+        if (select == 'Y' || select == 'y')
+        {
+            printf("\nRecord deleted!\n");
+            Body body = {};
+//            printf("Temp: %s\n", body.name);
+            body_collection[id] = body;
+//            printf("Collection: %s\n", body_collection[id].name);
+        } 
+        else if (select == 'N' || select == 'n')
+        {
+            printf("\nRecord will not be deleted\n");
+        }
     }
+    
 }
 
 /*
@@ -67,47 +80,71 @@ void delete_body(BodyPtr body_collection)
  */
 void update_body(BodyPtr body_collection)
 {
-    printf("\n=================================================================\n");
-    printf("=                     E D I T - R E C O R D                     =");
-    printf("\n=================================================================\n");
-    printf("Enter ID of body to update: ");
+    printf("\n***************************************************************************\n");
+    printf("*                            E D I T   M E N U                            *\n");
+    stars(1);
+
+    // Takes in user input as a string then validates two things
+    // 1) Checks that it is an interger (no letters)
+    // 2) Checks that it is within the range of 0 and MAX_MORGUE_CAPACITY - 1
+    // If either of these two conditions fail, program will loop until valid
+    // input is given
+    fflush(stdin);
+    char *id_string = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    int valid_entry;
+    while (1)
+    {
+        valid_entry = 1;
+        printf("Enter ID of body to update (0-999): ");  
+        fgets(id_string, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        id_string = remove_newline(id_string);
+        
+        valid_entry = is_valid_int(id_string, 0, 999);
+        
+        if (valid_entry == 0)
+        {
+            printf("Invalid Entry\n"); 
+        }
+        else
+        {
+            break;
+        }
+    }
+    // End of input check
+    
     int id;
     Body temp_body;
-    char select;
-    scanf("%d", &id);
-    getchar();
-    printf("\n");
-    
+    char *select = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));;
+    id = atoi(id_string);
+
     // checks if ID exists in collection
     int id_exists = validate_existing_id(body_collection, id);
     if (id_exists == 0)
     {
-        printf("ID not found!\n");
+        printf("Record not found!\n");
         return;
     }
-    
     temp_body = body_collection[id];
+    // end
     
-    while (select != 'q' && select != 'x')
+    while (select[0] != 'q' && select[0] != 'x')
     {      
         printf("Editing the following record:\n");        
         printf("");
         print_body_info(temp_body);
-        
-        
-        
         printf("\n");
-        printf("Select a value:\n");
-        printf("Name: n   |   Sex: s   |   Age: a   |   Weight: w   |   Height: h\n");
-        printf("Date of death: d   |   Cause of death: c\n");
-        printf("Quit and Save : q   |   Quit without Saving: x\n\n");
+        printf("Options:\n");
+        printf("Name: n         Sex: s         Age: a         Weight: w         Height: h\n");
+        printf("Date of death: d               Cause of death: c\n");
+        printf("Quit and Save : q              Quit without Saving: x\n");
         printf("Selection: ");
  
-        select = getchar();
-        getchar();
-        printf("\n");
+        fgets(select, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        select = remove_newline(select);
         
-        switch(select){
+        switch(select[0]){
             case 'n':
                 temp_body = set_body_name(temp_body);
                 break;
@@ -130,14 +167,15 @@ void update_body(BodyPtr body_collection)
                 temp_body = set_body_cause_of_death(temp_body);
                 break;		
 	}
-        printf("\n");
     }  
     
-    if (select == 'q')
+    if (select[0] == 'q')
     {
        body_collection[id] = temp_body; 
-    }
-    
+       printf("Record updated!\n");
+       return;
+    }  
+    printf("Record will not be updated\n");
 }
 
 /*
@@ -147,39 +185,94 @@ void update_body(BodyPtr body_collection)
  */
 void add_body(BodyPtr body_collection)
 {
-    printf("\n=================================================================\n");
-    printf("=                      A D D - R E C O R D                      =");
-    printf("\n=================================================================\n");
-    printf("Enter ID of new body: ");
+    printf("\n***************************************************************************\n");
+    printf("*                              A D D   M E N U                            *\n");
+    stars(1);
+    
+    Body body = create_body_empty();
+    body = set_body_name(body);
+    body = set_body_sex(body);
+    body = set_body_age(body);
+    body = set_body_weight(body);
+    body = set_body_height(body);
+    body = set_body_date_of_death(body);
+    body = set_body_cause_of_death(body);
+    body.id = generate_hash_code(body_collection, body);
+    printf("\n");
+    print_body_info(body);
+    char select;
+    
+    while (select != 'Y' && select != 'y' && select != 'N' && select != 'n')
+    {
+        printf("\nSave this record?\n");
+        printf("Options: Y / N\n");
+        printf("Selection: ");
+        
+        select = getchar();
+        getchar();
+
+        if (select == 'y' || select == 'Y')
+        {
+            add_to_collection(body_collection, body);
+            printf("\n");
+            rip_in_peace();
+        }
+        else if (select == 'N' || select == 'n')
+        {
+            printf("\nRecord not saved...\n");
+        }  
+    } 
+}
+
+
+void search_body(BodyPtr body_collection)
+{
+    char select;
+    while(select != 'r')
+    {
+        printf("\n***************************************************************************\n");
+        printf("*                        S E A R C H   M E N U                            *\n");
+        stars(1);
+        printf("*  Search by ID: i           Search by name: n           Search by: ?     *\n");
+        printf("*  Return: r                                                              *\n");
+        stars(1);
+        printf("Selection: ");
+        
+        select = getchar();
+        getchar();
+        
+        switch(select){
+            case 'i':
+                search_by_id(body_collection);
+                break;
+            case 'n':
+                break;
+            case 'r':
+                return;
+        }
+    }
+}
+
+void search_by_id(BodyPtr body_collection)
+{
     int id;
+    int valid_id;
+    printf("\nEnter ID: ");
     scanf("%d", &id);
     getchar();
-    
-    int id_exists = validate_existing_id(body_collection, id);
-    if (id_exists == 1)
+    valid_id = validate_existing_id(body_collection, id);
+
+    if (valid_id == 1)
     {
-        printf("ID is currently being used");
-        return;
+        printf("\nRecord found!\n");
+        print_body_info(body_collection[id]);
     }
-    
-    Body body = create_body_empty(id);
-//    print_body_info(body);
-    body = set_body_name(body);
-//    print_body_info(body);
-    body = set_body_sex(body);
-//    print_body_info(body);
-    body = set_body_age(body);
-//    print_body_info(body);
-    body = set_body_weight(body);
-//    print_body_info(body);
-    body = set_body_height(body);
-//    print_body_info(body);
-    body = set_body_date_of_death(body);
-//    print_body_info(body);
-    body = set_body_cause_of_death(body);
-//    print_body_info(body);
-    add_to_collection(body_collection, body);
+    else
+    {
+        printf("\nNo matching record found!\n");
+    }
 }
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -194,3 +287,4 @@ extern "C" {
 
 #endif /* MENU_FUNCTIONS_H */
 
+    
