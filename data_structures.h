@@ -11,7 +11,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <ctype.h>
+#include <string.h>
 const int MAX_MORGUE_CAPACITY = 1000;
 const int MAX_STRING_CAPACITY = 100;
 
@@ -162,16 +163,6 @@ int top;
 int ST[1000]; 
 }StackType, *Stack;
 
-/*
- *Hash Storing: Hash_function, quadratic_probing
- */
-int generate_hash_code(BodyPtr body_collection, Body body)
-{
-    int hash_code = hash_function(body);
-//    printf("%s Hash: %d\n", body.name, hash_code);
-    hash_code = quadratic_probing(body_collection, hash_code);
-    return hash_code;
-}
 
 /*
  * ASCII hash code generation
@@ -217,6 +208,17 @@ int quadratic_probing(BodyPtr body_collection, int hash_code)
         counter++;
     }
     return new_hash_code;
+}
+
+/*
+ *Hash Storing: Hash_function, quadratic_probing
+ */
+int generate_hash_code(BodyPtr body_collection, Body body)
+{
+    int hash_code = hash_function(body);
+//    printf("%s Hash: %d\n", body.name, hash_code);
+    hash_code = quadratic_probing(body_collection, hash_code);
+    return hash_code;
 }
 
 //
@@ -383,25 +385,6 @@ Body set_body_age(Body body)
 }
 
 /*
- * Sets value of date_of_death field in Body then returns
- */
-Body set_body_date_of_death(Body body)
-{
-//    fflush(stdin);
-//    printf("Enter Date of Death (Format: YYYY MM DD): ");
-//    int year, month, day;
-//    scanf("%d %d %d", &year, &month, &day);
-//    getchar();
-    printf("Enter date of death:\n");
-    printf("Valid Range: 1900-01-01 to 2200-12-31\n");
-    int year = get_date("Year: ", 1900, 2200);
-    int month = get_date("Month: ", 1, 12);
-    int day = get_date("Day: ", 1, 31);
-    body.date_of_death = create_date(year, month, day); 
-    return body;
-}
-
-/*
  * Used to get valid year, month and day in set_body_date_of_death
  */
 int get_date(char prompt[], int min, int max)
@@ -430,6 +413,25 @@ int get_date(char prompt[], int min, int max)
     }
     return atoi(date);
 }
+/*
+ * Sets value of date_of_death field in Body then returns
+ */
+Body set_body_date_of_death(Body body)
+{
+//    fflush(stdin);
+//    printf("Enter Date of Death (Format: YYYY MM DD): ");
+//    int year, month, day;
+//    scanf("%d %d %d", &year, &month, &day);
+//    getchar();
+    printf("Enter date of death:\n");
+    printf("Valid Range: 1900-01-01 to 2200-12-31\n");
+    int year = get_date("Year: ", 1900, 2200);
+    int month = get_date("Month: ", 1, 12);
+    int day = get_date("Day: ", 1, 31);
+    body.date_of_death = create_date(year, month, day); 
+    return body;
+}
+
 
 /*
  * Sets value of weight field in Body then returns

@@ -53,6 +53,7 @@ void swap(BodyPtr a, BodyPtr b){
 	strcpy(temp->name, a->name);
 	temp->sex = a->sex;
 	temp->age = a->age;
+	temp->date_of_death = a->date_of_death;
 	temp->weight = a->weight;
 	temp->height = a->height;
 	strcpy(temp->cause_of_death, a->cause_of_death);
@@ -61,6 +62,7 @@ void swap(BodyPtr a, BodyPtr b){
 	strcpy(a->name, b->name);
 	a->sex = b->sex;
 	a->age = b->age;
+	a->date_of_death = b->date_of_death;
 	a->weight = b->weight;
 	a->height = b->height;
 	strcpy(a->cause_of_death, b->cause_of_death);
@@ -69,6 +71,7 @@ void swap(BodyPtr a, BodyPtr b){
 	strcpy(b->name, temp->name);
 	b->sex = temp->sex;
 	b->age = temp->age;
+	b->date_of_death = temp->date_of_death;
 	b->weight = temp->weight;
 	b->height = temp->height;
 	strcpy(b->cause_of_death, temp->cause_of_death);
