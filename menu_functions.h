@@ -245,6 +245,7 @@ void search_body(BodyPtr body_collection)
                 search_by_id(body_collection);
                 break;
             case 'n':
+            	search_by_name(body_collection);
                 break;
             case 'r':
                 return;
@@ -272,6 +273,66 @@ void search_by_id(BodyPtr body_collection)
     }
 }
 
+void search_by_name(BodyPtr body_collection)
+{
+	//
+	// Alphabetized tree search
+	//
+	printf("initing sze");
+	int size = findSize(body_collection);
+	BodyPtr body_arr = (BodyPtr)calloc(size, sizeof(Body));
+	body_arr = convert_to_body_array(body_collection);
+	// make a stack for every character in the alphabet
+	printf("initing stack");
+	StackType alphas[26];
+	// initialize
+	for(int i = 0; i < 26; i++){
+		
+	alphas[i].top = -1;
+	
+	printf("??");
+	}
+	printf("??");
+	int fi;
+	for(int i = 0; i < size; i++){
+		if(body_collection[i].name !=NULL){
+			fi = (int)body_collection[i].name[0] - 65;
+			//get stack in alphas to input
+			++(alphas[fi].top);
+			alphas[fi].ST[alphas[fi].top]= body_collection[i].id; 
+		}		
+	}
+	
+	// Prompt for search terms
+	
+	char * name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+	char * tname = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    
+	printf("\nEnter Name: ");
+    scanf("%s", name);
+    
+    int key = (int)name[0] -65;
+    int currid = 0;
+    
+    while(strcmp(tname, name)!=0 && alphas[key].top>-1){
+    	currid = alphas[key].ST[alphas[key].top];
+    	tname = body_collection[currid].name;
+    	alphas[key].top--;
+	}
+	
+	int valid_id = validate_existing_id(body_collection, currid);
+	
+    if (valid_id == 1)
+    {
+        printf("\nRecord found!\n");
+        print_body_info(body_collection[currid]);
+    }
+    else
+    {
+        printf("\nNo matching record found!\n");
+    }
+
+}
 
 #ifdef __cplusplus
 extern "C" {
