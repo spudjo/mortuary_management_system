@@ -30,7 +30,7 @@
 void delete_body(BodyPtr body_collection)
 {
     printf("\n***************************************************************************\n");
-    printf("*                        D E L E T E - R E C O R D                        *");
+    printf("*                        D E L E T E   M E N U                            *");
     printf("\n***************************************************************************\n");
     stars(1);
     printf("Enter ID of body to delete: ");
@@ -130,6 +130,7 @@ void update_body(BodyPtr body_collection)
     
     while (select[0] != 'q' && select[0] != 'x')
     {      
+        stars(1);
         printf("Editing the following record:\n");        
         printf("");
         print_body_info(temp_body);
@@ -227,21 +228,21 @@ void add_body(BodyPtr body_collection)
 
 void search_body(BodyPtr body_collection)
 {
-    char select;
-    while(select != 'r')
+    char *select = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    while(1)
     {
         printf("\n***************************************************************************\n");
         printf("*                        S E A R C H   M E N U                            *\n");
         stars(1);
-        printf("*  Search by ID: i           Search by name: n           Search by: ?     *\n");
+        printf("*  Search by ID: i       Search by name: n                                *\n");
         printf("*  Return: r                                                              *\n");
         stars(1);
         printf("Selection: ");
+        fgets(select, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        select = remove_newline(select);
         
-        select = getchar();
-        getchar();
-        
-        switch(select){
+        switch(select[0]){
             case 'i':
                 search_by_id(body_collection);
                 break;

@@ -21,6 +21,5 @@ void main(int argc,int argv)
         Sleep(1000);
         print_introduction();
 	mainMenu();
-        return (EXIT_SUCCESS);
-        
+        return (EXIT_SUCCESS);    
 }

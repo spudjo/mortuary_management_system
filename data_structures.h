@@ -43,7 +43,7 @@ int is_valid_int(char *string, int min, int max)
     int valid_num = 1;
 
     // iterates through each character until finding a '\0' and checks 
-    // that each character is a number, else sets valid_age to 0 and breaks
+    // that each character is a number, else sets valid_num to 0 and breaks
     for (int i = 0; i < MAX_STRING_CAPACITY && string[i] != '\0'; i++)
     {
         if (!isdigit(string[i]))
@@ -78,7 +78,7 @@ int is_valid_decimal(char *string, float min, float max)
     int number_of_decimals = 0;
 
     // iterates through each character until finding a '\0' and checks 
-    // that each character is a number, else sets valid_age to 0 and breaks
+    // that each character is a number, else sets valid_num to 0 and breaks
     for (int i = 0; i < MAX_STRING_CAPACITY && string[i] != '\0'; i++)
     {
         if (!isdigit(string[i]))
@@ -110,6 +110,27 @@ int is_valid_decimal(char *string, float min, float max)
     }
     
     return valid_num;
+}
+
+/*
+ * Checks to ensure there are no commas in a given string
+ */
+int is_valid_string(char *string)
+{
+    int valid_string = 1;
+
+    // iterates through each character until finding a '\0' and checks 
+    // that each character is not a comma, else sets valid_string to 0 and breaks
+    for (int i = 0; i < MAX_STRING_CAPACITY && string[i] != '\0'; i++)
+    {
+        if (string[i] == ',')
+        {
+            valid_string = 0;
+            break;
+        }
+    }
+
+    return valid_string;
 }
 
 //
@@ -263,13 +284,29 @@ void add_to_collection(BodyPtr body_collection, Body body)
 Body set_body_name(Body body)
 {
     fflush(stdin);
-    printf("Enter Name: ");
     char *name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
-    fgets(name, MAX_STRING_CAPACITY, stdin); 
-    fflush(stdin);
-    name = remove_newline(name);
+    int valid_string;
+    
+    while(1)
+    {
+        valid_string = 1;
+        printf("Enter name: ");
+        fgets(name, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);
+        name = remove_newline(name);
+        valid_string = is_valid_string(name); // comma check
+        
+        if (valid_string == 0)
+        {
+            printf("Invalid entry: No commas allows\n");
+        }
+        else
+        {
+            break;
+        }
+
+    }
     body.name = name;
-//    strcpy(body.name, name);
     fflush(stdin);
     return body;
 }
@@ -283,7 +320,7 @@ Body set_body_sex(Body body)
     char *sex = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
     while (1)
     {
-        printf("Enter Sex (m/f): ");  
+        printf("Enter sex (m/f): ");  
         fgets(sex, MAX_STRING_CAPACITY, stdin); 
         fflush(stdin);      
         // check for valid character
@@ -292,7 +329,7 @@ Body set_body_sex(Body body)
            sex[0] != 'f' && 
            sex[0] != 'F')
         {
-            printf("Invalid Entry\n"); 
+            printf("Invalid entry: Please enter only (m)ale or (f)emale\n"); 
         }
         else
         {
@@ -315,7 +352,7 @@ Body set_body_age(Body body)
     while (1)
     {
         valid_entry = 1;
-        printf("Enter Age: ");  
+        printf("Enter age: ");  
         fgets(age, MAX_STRING_CAPACITY, stdin); 
         fflush(stdin);      
         age = remove_newline(age);
@@ -324,7 +361,7 @@ Body set_body_age(Body body)
         
         if (valid_entry == 0)
         {
-            printf("Invalid Entry\n"); 
+            printf("Invalid entry: Please enter only integers between 1 and 150\n"); 
         }
         else
         {
@@ -345,8 +382,9 @@ Body set_body_date_of_death(Body body)
 //    int year, month, day;
 //    scanf("%d %d %d", &year, &month, &day);
 //    getchar();
-    printf("Enter Date of Death:\n");
-    int year = get_date("Year: ", 2000, 2100);
+    printf("Enter date of death:\n");
+    printf("Valid Range: 1900-01-01 to 2200-12-31\n");
+    int year = get_date("Year: ", 1900, 2200);
     int month = get_date("Month: ", 1, 12);
     int day = get_date("Day: ", 1, 31);
     body.date_of_death = create_date(year, month, day); 
@@ -373,7 +411,7 @@ int get_date(char* prompt, int min, int max)
         
         if (valid_entry == 0)
         {
-            printf("Invalid Entry\n"); 
+            printf("Invalid entry: Please enter a valid date value\n"); 
         }
         else
         {
@@ -394,16 +432,16 @@ Body set_body_weight(Body body)
     while (1)
     {
         valid_entry = 1;
-        printf("Enter Weight(KG): ");  
+        printf("Enter weight(KG): ");  
         fgets(weight, MAX_STRING_CAPACITY, stdin); 
         fflush(stdin);      
         weight = remove_newline(weight);
         
-        valid_entry = is_valid_decimal(weight, 0.01, 650);
+        valid_entry = is_valid_decimal(weight, 1, 650);
         
         if (valid_entry == 0)
         {
-            printf("Invalid Entry\n"); 
+            printf("Invalid entry: Please enter only decimals between 1 and 650\n"); 
         }
         else
         {
@@ -425,16 +463,16 @@ fflush(stdin);
     while (1)
     {
         valid_entry = 1;
-        printf("Enter Height(CM): ");  
+        printf("Enter height(CM): ");  
         fgets(height, MAX_STRING_CAPACITY, stdin); 
         fflush(stdin);      
         height = remove_newline(height);
         
-        valid_entry = is_valid_decimal(height, 0.01, 300);
+        valid_entry = is_valid_decimal(height, 1, 300);
         
         if (valid_entry == 0)
         {
-            printf("Invalid Entry\n"); 
+            printf("Invalid entry: Please enter only decimals between 1 and 300\n"); 
         }
         else
         {
@@ -451,15 +489,29 @@ fflush(stdin);
 Body set_body_cause_of_death(Body body)
 {
     fflush(stdin);
-    printf("Enter Cause of Death: ");
     char *cause_of_death = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
-    fgets(cause_of_death, MAX_STRING_CAPACITY, stdin); 
-    fflush(stdin);
-    cause_of_death = remove_newline(cause_of_death);
-    body.cause_of_death = cause_of_death;
+    int valid_string;
+    
+    while(1)
+    {
+        valid_string = 1;
+        printf("Enter cause of death: ");
+        fgets(cause_of_death, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);
+        cause_of_death = remove_newline(cause_of_death);
+        valid_string = is_valid_string(cause_of_death); // comma check
+        
+        if (valid_string == 0)
+        {
+            printf("Invalid entry: No commas allowed\n");
+        }
+        else
+        {
+            break;
+        }
 
-//    body_collection[id].cause_of_death = cause_of_death;
-    //strcpy(body.cause_of_death, cause_of_death);
+    }
+    body.cause_of_death = cause_of_death;
     fflush(stdin);
     return body;
 }
@@ -526,14 +578,16 @@ void print_body_collection(BodyPtr body_collection)
 void printSorted(BodyPtr body_collection, int size){
 	
 	for(int i = 0; i < size; i++){
-        print_body_info(body_collection[i]);
+            printf("ID: %04d | Name: %s\n", body_collection[i].id, body_collection[i].name);
+            print_date(body_collection[i].date_of_death);
 	}
 }
 
 void printSortedR(BodyPtr body_collection, int size){
 	
 	for(int i = size-1; i >= 0; i--){
-        print_body_info(body_collection[i]);
+            printf("ID: %04d | Name: %s\n", body_collection[i].id, body_collection[i].name);
+            print_date(body_collection[i].date_of_death);
 	}
 }
 

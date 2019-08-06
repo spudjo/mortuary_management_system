@@ -31,56 +31,61 @@ BodyPtr readFromFile(BodyPtr body_collection)
     FILE *input = fopen(INPUT_FILE, "r");
     
     char temp_string[3 * MAX_STRING_CAPACITY];
-    char *string_ptr;
+    char *first_name;
+//    char first_name[MAX_STRING_CAPACITY];
+    char *last_name;
+    char *full_name;
+    char sex;
+    int age, year, month, day;
+    double weight, height;
+    char *cause_of_death;
+//    char cause_of_death[MAX_STRING_CAPACITY];
     
-    char *name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
-    char sex = 'X';
-    int age = 0, year = 0, month = 0, day = 0;
-    double weight = 0, height = 0;
-    char *cause_of_death = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
 
-    char a[100];
-    char b[200];
-
+    // file not found
     if (input == NULL)
     {
         printf("ERROR: file does not exist.");
     }
     else
     {
-        printf("File Found\n");
+//        printf("File Found\n");
         
-        while (fscanf(input, "%s", temp_string) == 1)
-        {  
+        while (fgets(temp_string, "%s", input) != NULL)
+        {    
+            puts(temp_string);
             
-            name = strtok(temp_string, ",");
-            strcpy(a, name);
-            printf("Name: %s\n", name);
-            fflush(stdin);
+            first_name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+            last_name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+            full_name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+            sex = 'X';
+            
+            age = year = month = day = 0;
+            weight = height = 0;
+            cause_of_death = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+            
 
+            first_name = strtok(temp_string, ",");
+//            fflush(stdin);
             sex = strtok(NULL , ",")[0];
-            printf("Sex: %c\n", sex);
-            
             age = atoi(strtok(NULL , ","));
-            printf("Age: %d\n", age);
-            
-            year = atoi(strtok(NULL , ","));
-            printf("Year: %d\n", year);
-            
+            year = atoi(strtok(NULL , ","));  
             month = atoi(strtok(NULL , ","));
-            printf("Month: %d\n", month);
-            
             day = atoi(strtok(NULL , ","));
-            printf("Day: %d\n", day);
-            
             weight = atof(strtok(NULL , ","));
-            printf("Weight: %lf\n", weight);
-            
-            height = atof(strtok(NULL , ","));
-            printf("Height: %lf\n", height);
-                    
+            height = atof(strtok(NULL , ","));    
             cause_of_death = strtok(NULL , ",");
-            strcpy(b, name);
+
+            printf("First Name: %s\n", first_name);
+            printf("Last Name: %s\n", last_name);
+            printf("Full Name: %s\n", full_name);
+            printf("Sex: %c\n", sex);
+            printf("Age: %d\n", age);
+            printf("Year: %d\n", year);
+            printf("Month: %d\n", month);
+            printf("Day: %d\n", day);
+            printf("Weight: %lf\n", weight);
+            printf("Height: %lf\n", height);
             printf("COC: %s\n\n", cause_of_death); 
             fflush(stdin);
             
@@ -96,10 +101,14 @@ BodyPtr readFromFile(BodyPtr body_collection)
 //            body.cause_of_death = "good bye";
 //            body.id = generate_hash_code(body_collection, body);
             
-            Body body = create_body(a, sex, age, year, month, day, weight, height, b, body_collection);
+            body = body = create_body_empty();
+            body = create_body(first_name, sex, age, year, month, day, weight, height, cause_of_death, body_collection);
+            print_body_info(body);
             add_to_collection(body_collection, body);
+            print_body_collection(body_collection);
         }
     }
+    print_body_collection(body_collection);
     return body_collection;
 }
 

@@ -11,6 +11,7 @@
 
 #include "data_structures.h"
 
+// Counts and returns number of bodies in main body_collection
 int findSize(BodyPtr body_collection){
 	int size = 0;
 	for(int i = 0; i < MAX_MORGUE_CAPACITY; i++){

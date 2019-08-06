@@ -1,4 +1,3 @@
 Casey Byrne,F,26,1992,33,44,555.00,666.00,Misadventure
-Shinji Ikari,M,16,2019,8,4,50.50,165.00,Death by angel
 Steven Carino,M,30,1989,11,22,99.00,88.50,Crushed by piano
 Shawn Pudjowargono,M,27,1991,9,5,111.00,222.00,Elephant stampede

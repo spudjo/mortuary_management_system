@@ -48,8 +48,9 @@ void print_introduction()
 void print_random_image()
 {
     srand(time(NULL));
-//    int random_number = (rand() % (upper - lower + 1)) + lower;
-    int random_number = (rand() % (1 - 0 + 1)) + 0;
+    int number_of_images = 3;
+    int random_number = rand() % number_of_images;
+
     
     switch(random_number){
         case 0:
@@ -58,9 +59,10 @@ void print_random_image()
         case 1:
             print_floaty_bois();
             break;
-     }
-    
-    
+        case 2:
+            print_rosy();
+            break;
+     }   
 }
 
 void print_skull_bois()
@@ -103,6 +105,24 @@ void print_floaty_bois()
     printf("*                                 '---'                Shawn Pudjowargono *\n"); 
     printf("*                                                                         *\n");
     printf("***************************************************************************\n");
+}
+
+void print_rosy()
+{
+    printf("***************************************************************************\n");
+    printf("*                                  ______                                 *\n");                     
+    printf("*                               .-\"      \"-.                              *\n");
+    printf("*                              /            \\            Kimberley Byrne  *\n");
+    printf("*                             |              |             Steven Carino  *\n");
+    printf("*                             |,  .-.  .-.  ,|        Shawn Pudjowargono  *\n");
+    printf("*                        /\\   | )(__/  \\__)( |                            *\n");
+    printf("*                      _ \\/   |/     /\\     \\|                            *\n");
+    printf("*                     \\_\\/    (_     ^^     _)   .-==/~\\                  *\n");
+    printf("*                    ___/_,__,_\\__|IIIIII|__/__)/   /{~}}                 *\n");
+    printf("*                    ---,---,---|-\\IIIIII/-|---,\\'-' {{~}                 *\n");
+    printf("*                               \\          /     '-==\\}/                  *\n");
+    printf("*                                `--------`                               *\n");
+    printf("***************************************************************************\n"); 
 }
 
 void rip_in_peace()
@@ -160,55 +180,63 @@ void searchMenu(BodyPtr body_collection)
     search_body(body_collection);
 }
 
-void displayMenu(BodyPtr body_collection){
-	
-    char select = "!";
-    while(select !='A' && select != 'D' && select != 'I'){
-    printf("\n***************************************************************************\n");
-    printf("*                       D I S P L A Y   M E N U                            *\n");
-    stars(1);
-    printf("*  ALPHABETICAL: asc: A desc: D                                           *\n");
-    printf("*  Return: r                                                              *\n");
-    stars(1);
-    printf("Selection: ");
-
-//    printf("\nID SEARCH: asc: A desc: D");
-
-    select = getchar();
-    printf("\n");
-    }
-    fflush(stdin);
-
-    //Aloccate our array with the number of records we have
+void displayMenu(BodyPtr body_collection)
+{
+    // Allocate our array with the number of records we have
     int arrSize = 0;
     arrSize = findSize(body_collection);
+    // Temporary array to hold bodies without NULL bodies
     BodyPtr body_arr = (BodyPtr)calloc(arrSize, sizeof(Body));
-
-    switch(select){
-        case 'A':
-            ;
-            body_arr = convert_to_body_array(body_collection);
-
-	        nameQuickSort(body_arr, 0 , arrSize-1);
-	        printSorted(body_arr, arrSize);
-	        fflush(stdin);
-	        getchar();
-	        break;
-
-        case 'D':
-            ;
-            body_arr = convert_to_body_array(body_collection);
-		
-		    nameQuickSort(body_arr, 0 , arrSize-1);
-		    printSortedR(body_arr, arrSize);
-		    fflush(stdin);
-		    getchar();
-		    break;
-        case 'r':
-            return;
+    // At this point, body_arr contains all the bodies
+    // from the main body_collection, minus any nulls
+    // This array will be used in below sort functions
+    body_arr = convert_to_body_array(body_collection);
+    
+    // variable to hold selection
+    char *select = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));;
+    
+    while(1) 
+    {
+        printf("\n***************************************************************************\n");
+        printf("*                      D I S P L A Y   M E N U                            *\n");
+        stars(1);
+        printf("*  Display by ID:      Ascending: i     Descending: d                     *\n");
+        printf("*  Display by name:    Ascending: n     Descending: e                     *\n");
+        printf("*  Return: r                                                              *\n");
+        stars(1);
+        printf("Selection: ");
+        fgets(select, MAX_STRING_CAPACITY, stdin); 
+        fflush(stdin);      
+        select = remove_newline(select);
+        
+        switch(select[0]){
+            case 'i':
+                // display id ascending
+//                idQuickSort(body_arr, 0 , arrSize-1);
+                printSorted(body_arr, arrSize);
+                break;
+            case 'd':
+                // display id descending
+//                idQuickSort(body_arr, 0 , arrSize-1);
+                printSortedR(body_arr, arrSize);
+                break;
+            case 'n':
+                // display id ascending
+                nameQuickSort(body_arr, 0 , arrSize-1);
+                printf("\n");
+                printSorted(body_arr, arrSize);
+                break;
+            case 'e':
+                // display id descending
+                nameQuickSort(body_arr, 0 , arrSize-1);
+                printf("\n");
+                printSortedR(body_arr, arrSize);
+                break;
+            case 'r':
+                return;
+                break;
+        }      
     }
-	
-
 }
 
 // QUIT MENU
@@ -220,13 +248,15 @@ void quit(BodyPtr body_collection){
     exit(0);
 }
 
-
 // MAIN MENU
 void mainMenu(){
-	char select = 'a';
-
+	char *select = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
         // create body_collection
         BodyPtr body_collection = create_body_collection(MAX_MORGUE_CAPACITY);
+         
+        // Generate bodies from input file
+        // !!! CURRENTLY BROKEN !!!
+        // Having issues with body.name and body.cause_of_death
 //        body_collection = readFromFile(body_collection);
         
         // start creating dummy data
@@ -250,10 +280,11 @@ void mainMenu(){
             printf("*  Search records: s         Display records: i         Quit: q           *\n");
             stars(1);
             printf("Selection: ");
-            select = getchar();
-            getchar();
+            fgets(select, MAX_STRING_CAPACITY, stdin); 
+            fflush(stdin);      
+            select = remove_newline(select);
             
-            switch(select){
+            switch(select[0]){
                 case 'a':
                     addMenu(body_collection);
                     break;
