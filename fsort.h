@@ -15,7 +15,7 @@
 int findSize(BodyPtr body_collection){
 	int size = 0;
 	for(int i = 0; i < MAX_MORGUE_CAPACITY; i++){
-		 if (body_collection[i].name != NULL){
+		 if (body_collection[i].name[0] != '\0'){
 		 	size++;
     	}
 	}
@@ -28,7 +28,7 @@ BodyPtr convert_to_body_array(BodyPtr bodycollection){
 	bstack->top = -1;
 	
 	for(int i = 0; i < MAX_MORGUE_CAPACITY; i++){
-		if(bodycollection[i].name != NULL){
+		if(bodycollection[i].name[0] != '\0'){
 			
 			++(bstack->top);
 			bstack->ST[bstack->top]=bodycollection[i].id; 
@@ -50,28 +50,28 @@ void swap(BodyPtr a, BodyPtr b){
 	
 	BodyPtr temp = (BodyPtr)malloc(sizeof(Body));
 	temp->id = a->id;
-	temp->name = a->name;
+	strcpy(temp->name, a->name);
 	temp->sex = a->sex;
 	temp->age = a->age;
 	temp->weight = a->weight;
 	temp->height = a->height;
-	temp->cause_of_death = a->cause_of_death;
+	strcpy(temp->cause_of_death, a->cause_of_death);
 	
 	a->id = b->id;
-	a->name = b->name;
+	strcpy(a->name, b->name);
 	a->sex = b->sex;
 	a->age = b->age;
 	a->weight = b->weight;
 	a->height = b->height;
-	a->cause_of_death = b->cause_of_death;
+	strcpy(a->cause_of_death, b->cause_of_death);
 	
 	b->id = temp->id;
-	b->name = temp->name;
+	strcpy(b->name, temp->name);
 	b->sex = temp->sex;
 	b->age = temp->age;
 	b->weight = temp->weight;
 	b->height = temp->height;
-	b->cause_of_death = temp->cause_of_death;
+	strcpy(b->cause_of_death, temp->cause_of_death);
 	}
 
 int idPartition(BodyPtr arr, int low, int high){

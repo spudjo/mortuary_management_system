@@ -18,7 +18,7 @@ const int MAX_STRING_CAPACITY = 100;
 /*
  * Replaces trailing newline character with '\0' and returns string
  */
-char* remove_newline(char *string)
+char* remove_newline(char string[])
 {
     for(int x = 0; x < MAX_STRING_CAPACITY; x++)
     {
@@ -32,13 +32,13 @@ char* remove_newline(char *string)
 }
 
 /*
- * Takes in a char* and checks that consists of only numbers within a certain 
+ * Takes in a char[] and checks that consists of only numbers within a certain 
  * range
  * max  = max acceptable number
  * min  = min acceptable number
  * Returns 1 if valid number, else returns 0
  */
-int is_valid_int(char *string, int min, int max)
+int is_valid_int(char string[], int min, int max)
 {
     int valid_num = 1;
 
@@ -72,7 +72,7 @@ int is_valid_int(char *string, int min, int max)
  * min  = min acceptable number
  * Returns 1 if valid number, else returns 0
  */
-int is_valid_decimal(char *string, float min, float max)
+int is_valid_decimal(char string[], float min, float max)
 {
     int valid_num = 1;
     int number_of_decimals = 0;
@@ -115,7 +115,7 @@ int is_valid_decimal(char *string, float min, float max)
 /*
  * Checks to ensure there are no commas in a given string
  */
-int is_valid_string(char *string)
+int is_valid_string(char string[])
 {
     int valid_string = 1;
 
@@ -147,13 +147,13 @@ typedef struct date
 typedef struct body
 {
     int id;
-    char* name;
+    char name[1000];
     char sex;
     int age;
     DatePtr date_of_death;
     double weight;
     double height;
-    char* cause_of_death; 
+    char cause_of_death[1000]; 
 }Body, *BodyPtr;
 
 typedef struct stack
@@ -178,15 +178,26 @@ int generate_hash_code(BodyPtr body_collection, Body body)
  */
 int hash_function(Body body)
 {
+    char string[MAX_STRING_CAPACITY];
     int sum = 0;
-    char *string = body.name;
+    strcpy(string, body.name);
 //    printf("Hash Calculation %s Start:\n", string);
-    while (*string != '\0')
+    
+    
+    for (int i = 0; i < MAX_STRING_CAPACITY; i++)
     {
-        sum += (int)*string;
-//        printf("Sum: %d Char: %c Value: %d\n", sum, *string, (int)*string);
-        *string++;
+        if (string[i] == '\0')
+        {
+            break;
+        }
+        sum += (int)string[i];  
     }
+//    while (*string != '\0')
+//    {
+//        sum += (int)*string;
+////        printf("Sum: %d Char: %c Value: %d\n", sum, *string, (int)*string);
+//        *string++;
+//    }
     return sum % MAX_MORGUE_CAPACITY;
 }
 
@@ -198,7 +209,7 @@ int quadratic_probing(BodyPtr body_collection, int hash_code)
     int counter = 1;
     int new_hash_code = hash_code;
 //    printf("Checking Hash %d\n", new_hash_code);
-    while(body_collection[new_hash_code].name != NULL)
+    while(body_collection[new_hash_code].name[0] != '\0')
     {
 //        printf("Name: %s\n", body_collection[new_hash_code]);
 //        printf("Space taken, probing...\n");
@@ -233,13 +244,13 @@ Body create_body(char name[], char sex, int age,
                  BodyPtr body_collection)
 {       
     Body body;
-    body.name = name;
+    strcpy(body.name, name);
     body.sex = sex;
     body.age = age;  
     body.date_of_death = create_date(year, month, day);  
     body.weight = weight;
     body.height = height;
-    body.cause_of_death = cause_of_death;
+    strcpy(body.cause_of_death, cause_of_death);
     body.id = generate_hash_code(body_collection, body); // sets id based on hash code 
     return body;
 }
@@ -251,13 +262,13 @@ Body create_body_empty()
 {
     Body body;
     body.id = -1;
+//    body.name = "X";
     body.age = 0;
     body.sex = 'X';
     body.date_of_death = create_date(0, 0, 0); 
     body.weight = 0;
     body.height = 0;
-    body.name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
-    body.cause_of_death = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+//    body.cause_of_death = "X";
     return body;
 }
 
@@ -284,7 +295,7 @@ void add_to_collection(BodyPtr body_collection, Body body)
 Body set_body_name(Body body)
 {
     fflush(stdin);
-    char *name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    char name[MAX_STRING_CAPACITY];
     int valid_string;
     
     while(1)
@@ -293,7 +304,7 @@ Body set_body_name(Body body)
         printf("Enter name: ");
         fgets(name, MAX_STRING_CAPACITY, stdin); 
         fflush(stdin);
-        name = remove_newline(name);
+        strcpy(name, remove_newline(name));
         valid_string = is_valid_string(name); // comma check
         
         if (valid_string == 0)
@@ -304,9 +315,8 @@ Body set_body_name(Body body)
         {
             break;
         }
-
     }
-    body.name = name;
+    strcpy(body.name, name);
     fflush(stdin);
     return body;
 }
@@ -347,7 +357,7 @@ Body set_body_sex(Body body)
 Body set_body_age(Body body)
 {
     fflush(stdin);
-    char *age = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    char age[MAX_STRING_CAPACITY];
     int valid_entry;
     while (1)
     {
@@ -355,7 +365,7 @@ Body set_body_age(Body body)
         printf("Enter age: ");  
         fgets(age, MAX_STRING_CAPACITY, stdin); 
         fflush(stdin);      
-        age = remove_newline(age);
+        strcpy(age, remove_newline(age));
         
         valid_entry = is_valid_int(age, 1, 150);
         
@@ -394,10 +404,10 @@ Body set_body_date_of_death(Body body)
 /*
  * Used to get valid year, month and day in set_body_date_of_death
  */
-int get_date(char* prompt, int min, int max)
+int get_date(char prompt[], int min, int max)
 {
     fflush(stdin);
-    char *date = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    char date[MAX_STRING_CAPACITY];
     int valid_entry;
     while (1)
     {
@@ -405,7 +415,7 @@ int get_date(char* prompt, int min, int max)
         printf("%s", prompt);  
         fgets(date, MAX_STRING_CAPACITY, stdin); 
         fflush(stdin);      
-        date = remove_newline(date);
+        strcpy(date, remove_newline(date));
         
         valid_entry = is_valid_int(date, min, max);
         
@@ -427,7 +437,7 @@ int get_date(char* prompt, int min, int max)
 Body set_body_weight(Body body)
 {
     fflush(stdin);
-    char *weight = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    char weight[MAX_STRING_CAPACITY];
     int valid_entry;
     while (1)
     {
@@ -435,7 +445,7 @@ Body set_body_weight(Body body)
         printf("Enter weight(KG): ");  
         fgets(weight, MAX_STRING_CAPACITY, stdin); 
         fflush(stdin);      
-        weight = remove_newline(weight);
+        strcpy(weight, remove_newline(weight));
         
         valid_entry = is_valid_decimal(weight, 1, 650);
         
@@ -457,8 +467,8 @@ Body set_body_weight(Body body)
  */
 Body set_body_height(Body body)
 {
-fflush(stdin);
-    char *height = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    fflush(stdin);
+    char height[MAX_STRING_CAPACITY];
     int valid_entry;
     while (1)
     {
@@ -466,7 +476,7 @@ fflush(stdin);
         printf("Enter height(CM): ");  
         fgets(height, MAX_STRING_CAPACITY, stdin); 
         fflush(stdin);      
-        height = remove_newline(height);
+        strcpy(height, remove_newline(height));
         
         valid_entry = is_valid_decimal(height, 1, 300);
         
@@ -489,7 +499,7 @@ fflush(stdin);
 Body set_body_cause_of_death(Body body)
 {
     fflush(stdin);
-    char *cause_of_death = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+    char cause_of_death[MAX_STRING_CAPACITY];
     int valid_string;
     
     while(1)
@@ -498,7 +508,7 @@ Body set_body_cause_of_death(Body body)
         printf("Enter cause of death: ");
         fgets(cause_of_death, MAX_STRING_CAPACITY, stdin); 
         fflush(stdin);
-        cause_of_death = remove_newline(cause_of_death);
+        strcpy(cause_of_death, remove_newline(cause_of_death));
         valid_string = is_valid_string(cause_of_death); // comma check
         
         if (valid_string == 0)
@@ -511,7 +521,7 @@ Body set_body_cause_of_death(Body body)
         }
 
     }
-    body.cause_of_death = cause_of_death;
+    strcpy(body.cause_of_death, cause_of_death);
     fflush(stdin);
     return body;
 }
@@ -521,7 +531,7 @@ Body set_body_cause_of_death(Body body)
  */
 int validate_existing_id(BodyPtr body_collection, int id)
 {
-    if (body_collection[id].name != NULL)
+    if (body_collection[id].name[0] != '\0')
     {
         // id already exists
 //        printf("Id Exists");
@@ -568,7 +578,7 @@ void print_body_collection(BodyPtr body_collection)
     printf("************************************* *************************************\n");
     for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
     {
-        if (body_collection[i].name != NULL)
+        if (body_collection[i].name[0] != '\0')
         {
             print_body_info(body_collection[i]);
         }

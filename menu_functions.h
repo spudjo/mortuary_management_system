@@ -31,7 +31,6 @@ void delete_body(BodyPtr body_collection)
 {
     printf("\n***************************************************************************\n");
     printf("*                        D E L E T E   M E N U                            *");
-    printf("\n***************************************************************************\n");
     stars(1);
     printf("Enter ID of body to delete: ");
     int id;
@@ -70,7 +69,6 @@ void delete_body(BodyPtr body_collection)
             printf("\nRecord will not be deleted\n");
         }
     }
-    
 }
 
 /*

@@ -23,7 +23,7 @@
 #include "data_structures.h"
 
 const char *INPUT_FILE = "bodies.txt";
-const char *OUTPUT_FILE = "output.txt";
+const char *OUTPUT_FILE = "bodies.txt";
 
 BodyPtr readFromFile(BodyPtr body_collection)
 {
@@ -31,17 +31,12 @@ BodyPtr readFromFile(BodyPtr body_collection)
     FILE *input = fopen(INPUT_FILE, "r");
     
     char temp_string[3 * MAX_STRING_CAPACITY];
-    char *first_name;
-//    char first_name[MAX_STRING_CAPACITY];
-    char *last_name;
-    char *full_name;
+    char name[MAX_STRING_CAPACITY];
     char sex;
     int age, year, month, day;
     double weight, height;
-    char *cause_of_death;
-//    char cause_of_death[MAX_STRING_CAPACITY];
+    char cause_of_death[MAX_STRING_CAPACITY];
     
-
     // file not found
     if (input == NULL)
     {
@@ -50,23 +45,18 @@ BodyPtr readFromFile(BodyPtr body_collection)
     else
     {
 //        printf("File Found\n");
-        
         while (fgets(temp_string, "%s", input) != NULL)
         {    
-            puts(temp_string);
+//            puts(temp_string);
             
-            first_name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
-            last_name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
-            full_name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+//            first_name = "X";
             sex = 'X';
-            
             age = year = month = day = 0;
             weight = height = 0;
-            cause_of_death = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+//            cause_of_death = "X";
             
-
-            first_name = strtok(temp_string, ",");
-//            fflush(stdin);
+            strcpy(name, strtok(temp_string, ","));
+            strcpy(name, remove_newline(name));
             sex = strtok(NULL , ",")[0];
             age = atoi(strtok(NULL , ","));
             year = atoi(strtok(NULL , ","));  
@@ -74,41 +64,27 @@ BodyPtr readFromFile(BodyPtr body_collection)
             day = atoi(strtok(NULL , ","));
             weight = atof(strtok(NULL , ","));
             height = atof(strtok(NULL , ","));    
-            cause_of_death = strtok(NULL , ",");
+            strcpy(cause_of_death,strtok(NULL , ","));
+            strcpy(cause_of_death, remove_newline(cause_of_death));
 
-            printf("First Name: %s\n", first_name);
-            printf("Last Name: %s\n", last_name);
-            printf("Full Name: %s\n", full_name);
-            printf("Sex: %c\n", sex);
-            printf("Age: %d\n", age);
-            printf("Year: %d\n", year);
-            printf("Month: %d\n", month);
-            printf("Day: %d\n", day);
-            printf("Weight: %lf\n", weight);
-            printf("Height: %lf\n", height);
-            printf("COC: %s\n\n", cause_of_death); 
+//            printf("First Name: %s\n", first_name);
+//            printf("Sex: %c\n", sex);
+//            printf("Age: %d\n", age);
+//            printf("Year: %d\n", year);
+//            printf("Month: %d\n", month);
+//            printf("Day: %d\n", day);
+//            printf("Weight: %lf\n", weight);
+//            printf("Height: %lf\n", height);
+//            printf("COC: %s\n\n", cause_of_death); 
             fflush(stdin);
             
-//            body = create_body_empty();
-//            body.name = "hello";
-//            body.sex = sex;
-//            body.age = age;
-//            body.date_of_death->year = year;
-//            body.date_of_death->month = month;
-//            body.date_of_death->day = day;
-//            body.weight = weight;
-//            body.height = height;
-//            body.cause_of_death = "good bye";
-//            body.id = generate_hash_code(body_collection, body);
-            
-            body = body = create_body_empty();
-            body = create_body(first_name, sex, age, year, month, day, weight, height, cause_of_death, body_collection);
-            print_body_info(body);
+            body = create_body(name, sex, age, year, month, day, weight, height, cause_of_death, body_collection);
+//            print_body_info(body);
             add_to_collection(body_collection, body);
-            print_body_collection(body_collection);
+//            print_body_collection(body_collection);
         }
     }
-    print_body_collection(body_collection);
+//    print_body_collection(body_collection);
     return body_collection;
 }
 
@@ -120,7 +96,7 @@ void saveToFile(BodyPtr bodiesArray){
     output = fopen(OUTPUT_FILE, "w");
     for (int i = 0; i < MAX_MORGUE_CAPACITY; i++)
     {
-        if (bodiesArray[i].name != NULL)
+        if (bodiesArray[i].name[0] != '\0')
         {
 //            print_body_info(bodiesArray[i]);
             fprintf(output, "%s,", bodiesArray[i].name);

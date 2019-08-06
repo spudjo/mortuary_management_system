@@ -192,6 +192,11 @@ void displayMenu(BodyPtr body_collection)
     // This array will be used in below sort functions
     body_arr = convert_to_body_array(body_collection);
     
+//    for (int i = 0; i < arrSize; i++)
+//    {
+//        print_body_info(body_arr[i]);
+//    }
+    
     // variable to hold selection
     char *select = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));;
     
@@ -201,7 +206,7 @@ void displayMenu(BodyPtr body_collection)
         printf("*                      D I S P L A Y   M E N U                            *\n");
         stars(1);
         printf("*  Display by ID:      Ascending: i     Descending: d                     *\n");
-        printf("*  Display by name:    Ascending: n     Descending: e                     *\n");
+        printf("*  Display by name:    Ascending: a     Descending: z                     *\n");
         printf("*  Return: r                                                              *\n");
         stars(1);
         printf("Selection: ");
@@ -220,13 +225,13 @@ void displayMenu(BodyPtr body_collection)
 //                idQuickSort(body_arr, 0 , arrSize-1);
                 printSortedR(body_arr, arrSize);
                 break;
-            case 'n':
+            case 'a':
                 // display id ascending
                 nameQuickSort(body_arr, 0 , arrSize-1);
                 printf("\n");
                 printSorted(body_arr, arrSize);
                 break;
-            case 'e':
+            case 'z':
                 // display id descending
                 nameQuickSort(body_arr, 0 , arrSize-1);
                 printf("\n");
@@ -257,15 +262,15 @@ void mainMenu(){
         // Generate bodies from input file
         // !!! CURRENTLY BROKEN !!!
         // Having issues with body.name and body.cause_of_death
-//        body_collection = readFromFile(body_collection);
+        body_collection = readFromFile(body_collection);
         
         // start creating dummy data
-        Body body_A = create_body("Shawn Pudjowargono", 'M', 27, 1991, 9, 5, 111, 222, "Elephant stampede", body_collection);
-        Body body_B = create_body("Steven Carino", 'M', 30, 1989, 11, 22, 99, 88.5, "Crushed by piano", body_collection);
-        Body body_C = create_body("Casey Byrne", 'F', 26, 1992, 33, 44, 555, 666, "Misadventure", body_collection);
-        add_to_collection(body_collection, body_A);
-        add_to_collection(body_collection, body_B);
-        add_to_collection(body_collection, body_C);
+//        Body body_A = create_body("Shawn Pudjowargono", 'M', 27, 1991, 9, 5, 111, 222, "Elephant stampede", body_collection);
+//        Body body_B = create_body("Steven Carino", 'M', 30, 1989, 11, 22, 99, 88.5, "Crushed by piano", body_collection);
+//        Body body_C = create_body("Casey Byrne", 'F', 26, 1992, 33, 44, 555, 666, "Misadventure", body_collection);
+//        add_to_collection(body_collection, body_A);
+//        add_to_collection(body_collection, body_B);
+//        add_to_collection(body_collection, body_C);
         // end create dummy data
             
 	stars(2);
@@ -273,6 +278,8 @@ void mainMenu(){
         stars(2);
         while (1)
         {
+//            print_body_collection(body_collection);
+            
             printf("\n***************************************************************************\n");
             printf("*                            M A I N   M E N U                            *\n");
             stars(1);
@@ -280,6 +287,8 @@ void mainMenu(){
             printf("*  Search records: s         Display records: i         Quit: q           *\n");
             stars(1);
             printf("Selection: ");
+           
+            
             fgets(select, MAX_STRING_CAPACITY, stdin); 
             fflush(stdin);      
             select = remove_newline(select);
