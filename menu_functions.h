@@ -310,6 +310,7 @@ void search_by_name(BodyPtr body_collection)
     fflush(stdin);
     fgets(name, MAX_STRING_CAPACITY, stdin); 
     fflush(stdin);
+    strcpy(name, remove_newline(name));
     
     int key = (int)name[0] -65;
     int currid;
