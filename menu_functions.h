@@ -304,15 +304,17 @@ void search_by_name(BodyPtr body_collection)
 	
 	char * name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
 	char * tname = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
-    
-	printf("\nEnter Name: ");
 	
-    fflush(stdin);
-    fgets(name, MAX_STRING_CAPACITY, stdin); 
-    fflush(stdin);
-    strcpy(name, remove_newline(name));
-    
-    int key = (int)name[0] -65;
+		printf("\nEnter Name: ");
+		
+	    fflush(stdin);
+	    fgets(name, MAX_STRING_CAPACITY, stdin); 
+	    fflush(stdin);
+	    strcpy(name, remove_newline(name));
+	    
+	    int key = (int)name[0] -65;
+
+	
     int currid;
     int curr = alphas[key].top;
     
@@ -320,22 +322,28 @@ void search_by_name(BodyPtr body_collection)
     	
     	currid = alphas[key].ST[curr];
     	strcpy(tname,body_collection[currid].name);
-    	printf("\n %d", curr);
-    	printf("\n %d", currid);
     	curr--;
-
 	}
 	
 	int valid_id = validate_existing_id(body_collection, currid);
-	
-    if (valid_id == 1)
+	int comp = strcmp(tname, name);
+    if (valid_id == 1 && comp == 0)
     {
         printf("\nRecord found!\n");
         print_body_info(body_collection[currid]);
+        
     }
     else
     {
         printf("\nNo matching record found!\n");
+        
+		if(alphas[key].top>-1){
+		printf("\nDid you mean one of these?\n");
+		for (int i = 0; i < alphas[key].top;i++){
+
+		print_body_info(body_collection[alphas[key].ST[i]]);
+		}
+		}
     }
 
 }

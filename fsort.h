@@ -111,6 +111,9 @@ int namePartition(BodyPtr arr, int low, int high){
 	// take first letter as pivot
 	int pivot = (int)arr[high].name[0];
 	int i = low;
+	int workingpiv = (int)arr[high].name[0];
+	int k = 0;
+	
 	for (int j = low; j <= high-1; j++){
 		//compare first letter to pivot
 		if((int)arr[j].name[0] < pivot){
@@ -120,7 +123,12 @@ int namePartition(BodyPtr arr, int low, int high){
 		//if first letter is the same, check rest of the string
 		else if((int)arr[j].name[0] == pivot){
 			// which string is bigger
-			if(strcmp(arr[i].name,arr[high].name)<0){
+			
+			while((int)arr[j].name[k] == arr[high].name[k]){
+				k++;
+			}
+			
+			if((int)arr[j].name[k]<(int)arr[high].name[k]){
 			swap(&arr[i], &arr[j]);
 			i++;
 			}
