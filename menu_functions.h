@@ -339,7 +339,7 @@ void search_by_name(BodyPtr body_collection)
         
 		if(alphas[key].top>-1){
 		printf("\nDid you mean one of these?\n");
-		for (int i = 0; i < alphas[key].top;i++){
+		for (int i = 0; i <= alphas[key].top; i++){
 
 		print_body_info(body_collection[alphas[key].ST[i]]);
 		}
