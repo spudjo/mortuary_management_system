@@ -1,0 +1,39 @@
+Damien Rice,M,23,1998,2,31,66.00,166.00,Suicide (Pills)
+Alice Glass,F,28,2017,7,15,52.00,170.00,Drug overdose
+Dead Olstei,M,20,1992,4,22,55.00,176.00,Suicide (Shotgun)
+Ben Shapiro,M,32,2019,5,7,40.00,150.00,His wife is a doctor
+Kurt Cobain,M,22,1992,1,1,60.00,167.00,Suicide (Shotgun)
+Casey Byrne,F,30,2200,12,31,111.00,666.00,Misadventure
+John Oliver,M,45,2018,4,24,72.00,172.00,Shot in face
+Eddard Stark,M,35,1980,7,6,75.00,182.00,Execution - Decapitated
+Shinji Ikari,M,18,2018,5,7,61.00,171.00,Suicide by toaster
+Walter White,M,45,2014,2,19,65.00,178.00,Gun wounds
+Meryl Streep,F,144,1900,1,23,450.00,120.00,Electric Fence
+Levi Ackerman,M,40,2019,8,13,65.00,160.00,Eaten by titan
+Michael Smith,M,28,1954,12,4,44.00,25.00,Suicide
+H. P. Lovecraft,M,47,1937,3,15,65.00,178.00,Small intestine cancer
+Jessica Jones,F,85,2019,8,4,57.00,174.00,Old age
+Julius Caesar,M,40,1900,1,1,75.00,172.00,Stabbed
+Steven Carino,M,26,1989,11,22,99.00,88.50,Crushed by piano
+Scott Ritchie,M,30,2025,4,1,555.00,222.00,Drag racing accident - Drove into a tree
+Buffy Summers,F,24,2016,5,22,54.27,175.40,Drained by vampire
+Donald J. Trump,M,73,2019,8,7,80.00,185.00,Heart attack
+Monkey D. Luffy,M,21,2017,7,6,75.00,178.00,Drowned
+Bernie Sanders,M,99,1900,5,4,40.00,175.00,Old age
+Joseph Joestar,M,85,2015,12,25,82.00,192.00,Stroke
+Serena Tsukino,F,19,2012,12,25,54.00,170.25,It's a mystery!
+Justin Trudeau,M,50,2018,7,5,70.00,182.00,Colorectal cancer
+Goku,M,80,2020,5,18,55.00,175.00,Heart attack
+Sandra McKenzie,F,24,2005,4,7,45.00,165.00,Killed by dog
+Patrick Bateman,M,55,2015,1,3,82.00,182.00,Police shootout
+Giorno Giovanna,M,99,2075,5,1,70.00,182.00,Old age
+Hillary Clinton,F,71,2019,8,7,52.00,164.00,Heart attack
+Jordan Peterson,M,54,2016,8,30,56.50,170.50,Inhaled deadly fumes while cleaning his room
+Baki the Grappler,M,15,2015,7,22,95.00,188.00,Grappled to death
+Daenerys Targaryen,F,18,2005,7,18,52.00,168.00,Stabbed in heart
+Thao Doan,F,22,2015,7,6,45.00,160.00,AK-47 accident
+Shawn Pudjowargono,M,27,1991,9,5,111.00,222.00,Elephant stampede
+Aerith Gainsborough,F,24,1997,4,12,52.00,168.00,Stabbed
+Dio Brando,M,150,2015,4,8,85.00,188.00,Killed by Jotaro Kujo
+Asuka Langley Sohryu,F,17,2019,8,6,52.00,162.00,Angel attack
+John Smith,M,48,1950,4,1,65.00,185.00,Cat swarm

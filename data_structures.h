@@ -15,6 +15,10 @@
 const int MAX_MORGUE_CAPACITY = 1000;
 const int MAX_STRING_CAPACITY = 100;
 
+//
+// DATA VALIDATION: Functions used to validate input for setting data fields
+//
+
 /*
  * Replaces trailing newline character with '\0' and returns string
  */
@@ -137,6 +141,7 @@ int is_valid_string(char *string)
 // DATA STRUCTURES: DATE, BODY
 //
 
+// Date Data Model
 typedef struct date
 {
     int year;
@@ -144,6 +149,7 @@ typedef struct date
     int day;
 }Date, *DatePtr;
 
+// Main Data Model
 typedef struct body
 {
     int id;
@@ -156,6 +162,7 @@ typedef struct body
     char* cause_of_death; 
 }Body, *BodyPtr;
 
+// Stack used for quick sort algorithm
 typedef struct stack
 {
 int top; 
@@ -179,14 +186,24 @@ int generate_hash_code(BodyPtr body_collection, Body body)
 int hash_function(Body body)
 {
     int sum = 0;
+<<<<<<< Updated upstream
     char *string = body.name;
 //    printf("Hash Calculation %s Start:\n", string);
     while (*string != '\0')
+=======
+    strcpy(string, body.name);
+    
+    for (int i = 0; i < MAX_STRING_CAPACITY; i++)
+>>>>>>> Stashed changes
     {
         sum += (int)*string;
 //        printf("Sum: %d Char: %c Value: %d\n", sum, *string, (int)*string);
         *string++;
     }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     return sum % MAX_MORGUE_CAPACITY;
 }
 
@@ -197,17 +214,32 @@ int quadratic_probing(BodyPtr body_collection, int hash_code)
 {
     int counter = 1;
     int new_hash_code = hash_code;
+<<<<<<< Updated upstream
 //    printf("Checking Hash %d\n", new_hash_code);
     while(body_collection[new_hash_code].name != NULL)
+=======
+    while(body_collection[new_hash_code].name[0] != '\0')
+>>>>>>> Stashed changes
     {
-//        printf("Name: %s\n", body_collection[new_hash_code]);
-//        printf("Space taken, probing...\n");
         new_hash_code = (hash_code + counter * counter) % MAX_MORGUE_CAPACITY;
         counter++;
     }
     return new_hash_code;
 }
 
+<<<<<<< Updated upstream
+=======
+/*
+ *Hash Storing: Hash_function, quadratic_probing
+ */
+int generate_hash_code(BodyPtr body_collection, Body body)
+{
+    int hash_code = hash_function(body);
+    hash_code = quadratic_probing(body_collection, hash_code);
+    return hash_code;
+}
+
+>>>>>>> Stashed changes
 //
 // Body Functions
 //
@@ -256,8 +288,11 @@ Body create_body_empty()
     body.date_of_death = create_date(0, 0, 0); 
     body.weight = 0;
     body.height = 0;
+<<<<<<< Updated upstream
     body.name = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
     body.cause_of_death = (char*)calloc(MAX_STRING_CAPACITY, sizeof(char));
+=======
+>>>>>>> Stashed changes
     return body;
 }
 
@@ -298,7 +333,7 @@ Body set_body_name(Body body)
         
         if (valid_string == 0)
         {
-            printf("Invalid entry: No commas allows\n");
+            printf("Invalid entry: No commas allowed\n");
         }
         else
         {
@@ -421,6 +456,23 @@ int get_date(char* prompt, int min, int max)
     return atoi(date);
 }
 
+<<<<<<< Updated upstream
+=======
+/*
+ * Sets value of date_of_death field in Body then returns
+ */
+Body set_body_date_of_death(Body body)
+{
+    printf("Enter date of death:\n");
+    printf("Valid Range: 1900-01-01 to 2200-12-31\n");
+    int year = get_date("Year: ", 1900, 2200);
+    int month = get_date("Month: ", 1, 12);
+    int day = get_date("Day: ", 1, 31);
+    body.date_of_death = create_date(year, month, day); 
+    return body;
+}
+
+>>>>>>> Stashed changes
 /*
  * Sets value of weight field in Body then returns
  */
@@ -516,6 +568,7 @@ Body set_body_cause_of_death(Body body)
     return body;
 }
 
+<<<<<<< Updated upstream
 /*
  * Checks if id exists in collection, if so, returns 1, else 0
  */
@@ -530,10 +583,11 @@ int validate_existing_id(BodyPtr body_collection, int id)
     return 0;
 }
 
+=======
+>>>>>>> Stashed changes
 //
 // Print functions
 //
-
 
 /*
  * Prints Date field values to standard output
@@ -575,29 +629,38 @@ void print_body_collection(BodyPtr body_collection)
     }
 }
 
-void printSorted(BodyPtr body_collection, int size){
-	
-	for(int i = 0; i < size; i++){
+void printSorted(BodyPtr body_collection, int size)
+{
+    for(int i = 0; i < size; i++)
+    {
+        printf("ID: %04d | Name: %s\n", body_collection[i].id, body_collection[i].name);
+    }
+}
+
+void printSortedR(BodyPtr body_collection, int size)
+{
+	for(int i = size-1; i >= 0; i--)
+        {
             printf("ID: %04d | Name: %s\n", body_collection[i].id, body_collection[i].name);
-            print_date(body_collection[i].date_of_death);
 	}
 }
 
-void printSortedR(BodyPtr body_collection, int size){
-	
-	for(int i = size-1; i >= 0; i--){
-            printf("ID: %04d | Name: %s\n", body_collection[i].id, body_collection[i].name);
-            print_date(body_collection[i].date_of_death);
-	}
+/*
+ * Checks if id exists in collection, if so, returns 1, else 0
+ */
+int validate_existing_id(BodyPtr body_collection, int id)
+{
+    if (body_collection[id].name[0] != '\0')
+    {
+        // id already exists
+        return 1;
+    }
+    return 0;
 }
-
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
 
 #ifdef __cplusplus
 }
