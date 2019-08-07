@@ -23,7 +23,7 @@ int findSize(BodyPtr body_collection){
 }
 
 BodyPtr convert_to_body_array(BodyPtr bodycollection){
-	
+	// Create stack for bodies
 	Stack bstack = (Stack) malloc (sizeof(StackType));
 	bstack->top = -1;
 	
@@ -34,20 +34,22 @@ BodyPtr convert_to_body_array(BodyPtr bodycollection){
 			bstack->ST[bstack->top]=bodycollection[i].id; 
 		}		
 	}
-	
+	// create an array
 	BodyPtr body_indexes = (BodyPtr) calloc (bstack->top+1, sizeof(Body));
 	int index = 0;
+	// convert stack to array
 	while(bstack->top > -1){
 		body_indexes[index] = bodycollection[bstack->ST[bstack->top]];
 		index++;
 		--(bstack->top);
 	}
+	// return array of indexes
 	return body_indexes;
 }
 
 // swap function for all QSorts
 void swap(BodyPtr a, BodyPtr b){
-	
+	// create temp pointer
 	BodyPtr temp = (BodyPtr)malloc(sizeof(Body));
 	temp->id = a->id;
 	strcpy(temp->name, a->name);
@@ -57,7 +59,7 @@ void swap(BodyPtr a, BodyPtr b){
 	temp->weight = a->weight;
 	temp->height = a->height;
 	strcpy(temp->cause_of_death, a->cause_of_death);
-	
+	// switch pointers
 	a->id = b->id;
 	strcpy(a->name, b->name);
 	a->sex = b->sex;
@@ -106,16 +108,18 @@ void idQuickSort(BodyPtr arr, int low, int high){
 
 
 int namePartition(BodyPtr arr, int low, int high){
-	
+	// take first letter as pivot
 	int pivot = (int)arr[high].name[0];
 	int i = low;
 	for (int j = low; j <= high-1; j++){
+		//compare first letter to pivot
 		if((int)arr[j].name[0] < pivot){
 			swap(&arr[i], &arr[j]);
 			i++;
 		}
 		//if first letter is the same, check rest of the string
 		else if((int)arr[j].name[0] == pivot){
+			// which string is bigger
 			if(strcmp(arr[i].name,arr[high].name)<0){
 			swap(&arr[i], &arr[j]);
 			i++;
@@ -139,21 +143,5 @@ void nameQuickSort(BodyPtr arr, int low, int high){
 	}
 }
 
-
-/*
-	int search(Body * ab[], int sin){
-	// if search returns -1 then index doesnt exist
-	int index = -1;
-	for(int i = 0; i < size; i++){
-		if(ab[i]->id == sin){
-			index = i;
-			ab++;
-		}
-		else{
-			ab++;
-		}
-	}
-}
-*/
 
 #endif

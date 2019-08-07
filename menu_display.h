@@ -260,25 +260,15 @@ void mainMenu(){
         BodyPtr body_collection = create_body_collection(MAX_MORGUE_CAPACITY);
          
         // Generate bodies from input file
-        // !!! CURRENTLY BROKEN !!!
-        // Having issues with body.name and body.cause_of_death
+
         body_collection = readFromFile(body_collection);
         
-        // start creating dummy data
-//        Body body_A = create_body("Shawn Pudjowargono", 'M', 27, 1991, 9, 5, 111, 222, "Elephant stampede", body_collection);
-//        Body body_B = create_body("Steven Carino", 'M', 30, 1989, 11, 22, 99, 88.5, "Crushed by piano", body_collection);
-//        Body body_C = create_body("Casey Byrne", 'F', 26, 1992, 33, 44, 555, 666, "Misadventure", body_collection);
-//        add_to_collection(body_collection, body_A);
-//        add_to_collection(body_collection, body_B);
-//        add_to_collection(body_collection, body_C);
-        // end create dummy data
             
 	stars(2);
         printf("*                     Welcome to St.Anthony's Mortuary                    *\n");
         stars(2);
         while (1)
         {
-//            print_body_collection(body_collection);
             
             printf("\n***************************************************************************\n");
             printf("*                            M A I N   M E N U                            *\n");
