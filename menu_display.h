@@ -217,12 +217,12 @@ void displayMenu(BodyPtr body_collection)
         switch(select[0]){
             case 'i':
                 // display id ascending
-//                idQuickSort(body_arr, 0 , arrSize-1);
+                idQuickSort(body_arr, 0 , arrSize-1);
                 printSorted(body_arr, arrSize);
                 break;
             case 'd':
                 // display id descending
-//                idQuickSort(body_arr, 0 , arrSize-1);
+                idQuickSort(body_arr, 0 , arrSize-1);
                 printSortedR(body_arr, arrSize);
                 break;
             case 'a':
