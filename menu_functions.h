@@ -312,12 +312,17 @@ void search_by_name(BodyPtr body_collection)
     fflush(stdin);
     
     int key = (int)name[0] -65;
-    int currid = 0;
+    int currid;
+    int curr = alphas[key].top;
     
-    while(strcmp(tname, name) != 0 && alphas[key].top > -1){
-    	currid = alphas[key].ST[alphas[key].top+1];
-    	tname = body_collection[currid].name;
-    	alphas[key].top--;
+    while((strcmp(tname, name) != 0) && curr >= 0){
+    	
+    	currid = alphas[key].ST[curr];
+    	strcpy(tname,body_collection[currid].name);
+    	printf("\n %d", curr);
+    	printf("\n %d", currid);
+    	curr--;
+
 	}
 	
 	int valid_id = validate_existing_id(body_collection, currid);

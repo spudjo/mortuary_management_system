@@ -17,9 +17,9 @@
 
 void main(int argc,int argv)
 {
-        print_random_image();
-        Sleep(1000);
-        print_introduction();
+    print_random_image();
+    Sleep(1000);
+    print_introduction();
 	mainMenu();
-        return (EXIT_SUCCESS);    
+    return (EXIT_SUCCESS);    
 }
