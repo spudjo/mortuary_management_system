@@ -16,18 +16,15 @@ A command line program demonstrating implementation of various data structures a
 	|- Delete record
 	|
 	|- Search records
-	|				|- Search by ID
-	|				|- Search by Name
+	|		|- Search by ID
+	|		|- Search by Name
 	|
 	|- Display records
-	|				|- Display by ID
-	|				|			|- Ascending
-	|				|			|- Descending
-	|				|
-	|				|- Display by Name
-	|							|- Ascending
-	|							|- Descending
+	|		|- Display by ID
+	|		|		|- Ascending
+	|		|		|- Descending
+	|		|
+	|		|- Display by Name
+	|				|- Ascending
+	|				|- Descending
 	|- Quit
-
-
-    
